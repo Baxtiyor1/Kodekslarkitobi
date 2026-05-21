@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kodeks: Standartlar — O'quv O'yini</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
+:root{--bg:#0d0f1a;--card:#151827;--card2:#1c2035;--border:#2a2f4a;--accent:#7c6af7;--accent2:#f7a26a;--green:#4ade80;--red:#f87171;--text:#e8eaf6;--muted:#8890b0;--glow:rgba(124,106,247,0.18)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 20% 10%,rgba(124,106,247,0.08) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 80%,rgba(247,162,106,0.06) 0%,transparent 60%);pointer-events:none;z-index:0}
+.wrap{position:relative;z-index:1;max-width:920px;margin:0 auto;padding:0 16px}
+header{padding:28px 0 0;text-align:center}
+.logo-title{font-family:'Unbounded',sans-serif;font-size:clamp(1.1rem,4vw,1.8rem);font-weight:900;background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo-sub{color:var(--muted);font-size:.8rem;margin-top:4px;letter-spacing:1px}
+.progress-section{margin:22px 0 18px;background:var(--card);border-radius:16px;padding:18px 22px;border:1px solid var(--border)}
+.progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.progress-label{font-size:.82rem;color:var(--muted);font-weight:600;letter-spacing:.5px}
+.progress-pct{font-family:'Unbounded',sans-serif;font-size:1.15rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.progress-bar-bg{height:10px;background:var(--bg);border-radius:99px;overflow:hidden}
+.progress-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .6s cubic-bezier(.4,0,.2,1)}
+.stats-row{display:flex;gap:12px;margin-top:12px;flex-wrap:wrap}
+.stat-pill{background:var(--bg);border:1px solid var(--border);border-radius:99px;padding:5px 14px;font-size:.78rem;color:var(--muted);display:flex;align-items:center;gap:6px}
+.stat-pill span{color:var(--text);font-weight:700}
+.section-title{font-family:'Unbounded',sans-serif;font-size:.72rem;color:var(--muted);letter-spacing:2px;margin:24px 0 12px;text-transform:uppercase}
+.chapter-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-bottom:28px}
+.chapter-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.chapter-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 24px var(--glow)}
+.chapter-card.done{border-color:rgba(74,222,128,.35)}
+.chapter-card.done::after{content:'✓';position:absolute;top:10px;right:12px;color:var(--green);font-size:1rem;font-weight:700}
+.chapter-card.active{border-color:var(--accent);background:var(--card2)}
+.chapter-num{font-family:'Unbounded',sans-serif;font-size:.63rem;color:var(--accent);font-weight:700;letter-spacing:1px;margin-bottom:5px}
+.chapter-name{font-size:.82rem;font-weight:600;line-height:1.35;color:var(--text)}
+.chapter-status{margin-top:8px;font-size:.72rem;color:var(--muted)}
+.chapter-status .score{color:var(--accent2);font-weight:700}
+#panel{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px 28px 32px;margin-bottom:40px;display:none}
+#panel.visible{display:block}
+.panel-header{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.panel-icon{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.panel-title{font-family:'Unbounded',sans-serif;font-size:1rem;font-weight:700;line-height:1.3}
+.panel-subtitle{font-size:.8rem;color:var(--muted);margin-top:2px}
+.tab-row{display:flex;gap:8px;margin-bottom:22px}
+.tab-btn{padding:8px 20px;border-radius:99px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .2s}
+.tab-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 4px 16px var(--glow)}
+.tab-btn:hover:not(.active){border-color:var(--accent);color:var(--text)}
+.lesson-body{font-size:.93rem;line-height:1.8;color:#d0d4f0}
+.lesson-body h3{font-family:'Unbounded',sans-serif;font-size:.85rem;color:var(--accent2);margin:18px 0 8px}
+.lesson-body ul{padding-left:20px;margin:8px 0}
+.lesson-body li{margin:6px 0}
+.lesson-body .hl{background:rgba(124,106,247,.12);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0;font-weight:600}
+.lesson-body strong{color:var(--accent2)}
+.lesson-actions{margin-top:20px}
+.quiz-q-num{font-size:.72rem;color:var(--accent);font-weight:700;letter-spacing:1px;margin-bottom:8px;text-transform:uppercase}
+.quiz-question{font-size:1rem;font-weight:700;line-height:1.5;margin-bottom:18px;color:var(--text)}
+.options-list{display:flex;flex-direction:column;gap:10px}
+.opt-btn{background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:13px 16px;text-align:left;color:var(--text);font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .18s;line-height:1.4}
+.opt-btn:hover:not(:disabled){border-color:var(--accent);background:var(--card2)}
+.opt-btn.correct{border-color:var(--green);background:rgba(74,222,128,.1);color:var(--green)}
+.opt-btn.wrong{border-color:var(--red);background:rgba(248,113,113,.1);color:var(--red)}
+.answer-feedback{margin-top:14px;padding:12px 16px;border-radius:12px;font-size:.88rem;font-weight:600;display:none;line-height:1.5}
+.answer-feedback.correct{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);color:var(--green)}
+.answer-feedback.wrong{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:var(--red)}
+.quiz-nav{display:flex;align-items:center;justify-content:space-between;margin-top:20px;flex-wrap:wrap;gap:10px}
+.quiz-progress-dots{display:flex;gap:6px}
+.q-dot{width:8px;height:8px;border-radius:99px;background:var(--border);transition:all .2s}
+.q-dot.done-correct{background:var(--green)}
+.q-dot.done-wrong{background:var(--red)}
+.q-dot.current{background:var(--accent);width:20px}
+.btn{padding:11px 24px;border-radius:12px;border:none;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 4px 16px var(--glow)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 24px var(--glow)}
+.btn-secondary{background:var(--bg);border:1.5px solid var(--border);color:var(--text)}
+.btn-secondary:hover{border-color:var(--accent)}
+.result-card{text-align:center;padding:32px 20px}
+.result-emoji{font-size:3.5rem;margin-bottom:12px}
+.result-score{font-family:'Unbounded',sans-serif;font-size:2.5rem;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.result-msg{color:var(--muted);margin:10px 0 22px;font-size:.95rem}
+html{scroll-behavior:smooth}
+@media(max-width:600px){#panel{padding:18px 14px 22px}.chapter-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="logo-title">📚 КОДЕКС: СТАНДАРТЛАР</div>
+  <div class="logo-sub">Oflayn o'quv o'yini — internet shart emas</div>
+</header>
+
+<div class="progress-section">
+  <div class="progress-top">
+    <div class="progress-label">UMUMIY NATIJA</div>
+    <div class="progress-pct" id="pct-text">0%</div>
+  </div>
+  <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill" style="width:0%"></div></div>
+  <div class="stats-row">
+    <div class="stat-pill">📖 O'rganilgan: <span id="stat-done">0</span>/36</div>
+    <div class="stat-pill">✅ To'g'ri: <span id="stat-correct">0</span></div>
+    <div class="stat-pill">🏆 Ball: <span id="stat-score">0</span></div>
+  </div>
+</div>
+
+<div class="section-title">Boblar — birini tanlang</div>
+<div class="chapter-grid" id="chapter-grid"></div>
+
+<div id="panel">
+  <div class="panel-header">
+    <div class="panel-icon" id="panel-icon">📘</div>
+    <div>
+      <div class="panel-title" id="panel-title"></div>
+      <div class="panel-subtitle" id="panel-subtitle"></div>
+    </div>
+  </div>
+  <div class="tab-row">
+    <button class="tab-btn active" onclick="switchTab('lesson')">📖 Dars</button>
+    <button class="tab-btn" onclick="switchTab('quiz')">🎯 Test</button>
+  </div>
+  <div id="lesson-content">
+    <div class="lesson-body" id="lesson-text"></div>
+    <div class="lesson-actions"><button class="btn btn-primary" onclick="switchTab('quiz')">🎯 Testni boshlash →</button></div>
+  </div>
+  <div id="quiz-content" style="display:none">
+    <div id="quiz-main">
+      <div class="quiz-q-num" id="q-num"></div>
+      <div class="quiz-question" id="q-text"></div>
+      <div class="options-list" id="q-options"></div>
+      <div class="answer-feedback" id="q-feedback"></div>
+      <div class="quiz-nav">
+        <div class="quiz-progress-dots" id="q-dots"></div>
+        <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()" style="display:none">Keyingi →</button>
+      </div>
+    </div>
+    <div id="quiz-result" style="display:none"></div>
+  </div>
+</div>
+</div>
+
+<script>
+const DATA = [
+  {
+    num:1, icon:'📋', name:'Ички низомлар ва назорат',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Korxonada har qanday holat <strong>yozma nizomlar</strong> bo'yicha hal qilinadi. Og'zaki gaplar unutiladi — yozilgan qoida esda qoladi.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Har qanday hodim — direktor yoki oddiy xodim — uchun <strong>qonunlar bir xil</strong></li>
+<li>Yozilmagan nizom bo'yicha <strong>jarima qo'llanilmaydi</strong></li>
+<li>Yangi nizom e'lon qilinganda xodim <strong>LIKE bosib tasdiqlaydi</strong> — 12 soatdan keyin kuchga kiradi</li>
+<li>Xodim o'z xatosini inspektorgacha <strong>o'zi aytsa — jarima 50% kamayadi</strong></li>
+<li>Jarima summasi kompaniya hisobiga <strong>kirmaydi</strong> — boshqa xodimga bonus bo'ladi</li>
+<li>Direktor har oy jarima summasini <strong>90% gacha kechib yuborish</strong> huquqiga ega</li>
+</ul>
+<div class="hl">💡 Eslab qol: Nizomni bilmaslik jarimadan ozod qilmaydi!</div>
+<h3>🌍 Amaliy misol</h3>
+<p>Siz kecha xato qildingiz. Inspektor bilishidan avval o'zingiz guruhga yozsangiz — 50,000 o'rniga 25,000 so'm jarima to'laysiz.</p>`,
+    quiz:[
+      {q:"Yozilmagan nizom bo'yicha nima qilish mumkin?",opts:["Jarima yozish mumkin","Jarima yozish mumkin emas","Ogohlantirib qo'yish mumkin","Rahbar xohlasa jarima yozadi"],ans:1,exp:"Faqat yozilgan nizom bo'yicha jarima qo'llaniladi."},
+      {q:"Xodim o'z xatosini inspektorgacha o'zi aytsa jarima qancha bo'ladi?",opts:["Jarima yo'q","25% kamayadi","50% kamayadi","75% kamayadi"],ans:2,exp:"1-bob 4-nizom: o'zi tan olsa jarima 50% kamaytiriladi."},
+      {q:"Yangi nizom e'lon qilingandan necha soat o'tgach kuchga kiradi?",opts:["Darhol","6 soat","12 soat","24 soat"],ans:2,exp:"Yangi nizom 12 soatdan keyin amалга оширiladi."},
+      {q:"Jarima summasi qayerga kiritilmaydi?",opts:["Xodim hisобiga","Kompaniya balansiga","Xayriya hisobiga","Bonus fondiga"],ans:1,exp:"Jarima kompaniya hisobiga kirmaydi — adolatli bo'lishi uchun."},
+      {q:"Direktor jarima summasini necha foizgacha kechib yuborishi mumkin?",opts:["50%","70%","90%","100%"],ans:2,exp:"Direktor har oy 90% gacha kechirish huquqiga ega."}
+    ]
+  },
+  {
+    num:2, icon:'🏅', name:'Бонус ва эътироф стандартлари',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Jarima tarbiyalash uchun, bonus rag'batlantirish uchun. <strong>Bonus jarima dari ko'p bo'lishi shart!</strong></p>
+<h3>📌 Bonus olish sabablari</h3>
+<ul>
+<li>Bir oy <strong>kechikmasdan</strong> kelgan xodimga bonus</li>
+<li>Bir oy <strong>birorta jarima</strong> emas olmagan xodimga bonus</li>
+<li>Yaxshi <strong>yangi xodim tavsiya</strong> qilganga bonus (sinov o'tgandan keyin)</li>
+<li>Trening yoki ярмаркадан <strong>bilim olib kelib, jamoaga o'rgatganga</strong> bonus</li>
+<li><strong>Hamkasibiga yordam bergani</strong> uchun bonus</li>
+<li>Yil davomida <strong>"Yil xodimi"</strong> tanlanadi</li>
+</ul>
+<div class="hl">💡 Eslab qol: Bonus olsang, online ofis guruhida summa va sababini yozib bildirishing shart — aks holda bonus bekor!</div>
+<h3>🌍 Amaliy misol</h3>
+<p>Siz bir oy davomida hech kechikmasdan keldingiz va jarima olmadiingiz — bu ikki sabab bo'yicha bonus olasiz!</p>`,
+    quiz:[
+      {q:"Bonus olganda xodim nima qilishi shart?",opts:["Hech narsa qilmaydi","Rahbarga rahmat aytadi","Onlayn ofis guruhida summa va sababini yozadi","Moliyaga xabar beradi"],ans:2,exp:"25-nizom: bonus olgach guruhda e'lon qilmaslik — bonusni bekor qiladi."},
+      {q:"Yangi tavsiya qilgan xodimga bonus qachon beriladi?",opts:["Darhol tavsiya qilinganda","Suhbatdan o'tganda","Sinov muddatidan o'tgandan keyin","1 oy ishlagan dan keyin"],ans:2,exp:"Yangi xodim sinov muddatidan o'tgach bonus beriladi."},
+      {q:"Bonus va jarima o'rtasida qanday munosabat bo'lishi kerak?",opts:["Teng bo'lishi kerak","Jarima ko'p bo'lishi kerak","Bonus ko'p bo'lishi kerak","Farqi muhim emas"],ans:2,exp:"Kitob qoidasi: bonus jarima dan ko'p bo'lishi shart."},
+      {q:"'Yil xodimi' kim tomonidan tanlanadi?",opts:["Rahbar tanlaydi","Ishchilar o'zaro tanlaydi","HR tanlaydi","Direktor tanlaydi"],ans:1,exp:"Ishchilar tomonidan tanlangan eng yaxshi yil xodimiga bonus yoki yo'llanma."},
+      {q:"Treningdan qaytib necha kun ichida jamoaga o'rgatish kerak?",opts:["1 kun","2 kun","1 hafta","1 oy"],ans:1,exp:"17-bob: treningdan qaytgandan 2 kun ichida jamoa yoki qo'l ostidagilarga o'rgatish shart."}
+    ]
+  },
+  {
+    num:3, icon:'🤝', name:'Умумий маданият ва хулқ',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Korxona — bu oila. <strong>Pozitiv muhit, halollik va o'zaro hurmat</strong> — eng muhim qadriyatlar.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Har qanday holatda <strong>tabassum va pozitiv kayfiyat</strong> — majburiy</li>
+<li>Mijozga qo'pol gapirish, ustidan kulish — <strong>qat'iyan taqiq</strong></li>
+<li>Ish vaqtida muzika, kino ko'rish — <strong>taqiq</strong> (tanaffus bundan mustasno)</li>
+<li><strong>Yolg'on gapirish</strong> — 1 yilda 3 marta bo'lsa ishdan haydaIadi</li>
+<li>Har kuni ish boshida <strong>kunlik reja</strong> guruhga yoziladi</li>
+<li>Juma kuni soat 12:45 — 13:30 savdo qilish <strong>qadriyatlarimizga to'g'ri kelmaydi</strong></li>
+</ul>
+<div class="hl">💡 Eslab qol: Kompaniya obro'sini tushiradigan har qanday harakat — jarima!</div>
+<h3>🌍 Amaliy misol</h3>
+<p>Mijoz qo'ng'iroq qildi. Siz band bo'lsangiz ham — qizil tugma (rad etish) bosish mumkin emas! Keyinroq o'zingiz qo'ng'iroq qilasiz.</p>`,
+    quiz:[
+      {q:"Yolg'on gapirish necha marta takrorlansa ishdan haydaIadi?",opts:["1 marta","2 marta","3 marta","5 marta"],ans:2,exp:"3-bob 23-nizom: bir yilda 3 marta yolg'on gapirsa ishdan haydaIadi."},
+      {q:"Juma kuni soat nechadan nechagacha savdo qilish mumkin emas?",opts:["12:00-13:00","12:45-13:30","13:00-14:00","14:00-15:00"],ans:1,exp:"Juma namozi vaqti hisobga olinib 12:45-13:30 savdo qilish taqiqlanadi."},
+      {q:"Mijoz qo'ng'iroq qilganda nima qilish mumkin emas?",opts:["Tanaffusda javob bermaslik","Qizil tugma bosib rad etish","Kechroq qo'ng'iroq qilish","Hamkasibga o'tkazish"],ans:1,exp:"Mijoz qo'ng'iroqiga rad javobini berish qat'iyan taqiqlanadi."},
+      {q:"Kunlik reja qachon yozilishi kerak?",opts:["Kechqurun","Ish boshida soat 10:00 gacha","Tushlikdan keyin","Xohlagan payt"],ans:1,exp:"Har kuni ish vaqti boshida soat 10:00 gacha kunlik reja yoziladi."},
+      {q:"Yangi sinov muddatidagi xodim kelganda eski xodimlar nima qilishi shart?",opts:["E'tibor bermaslik","Ish ko'rsatib qo'yish","Ismi va lavozimini aytib salomlashish","Rahbar bilan tanishtirish"],ans:2,exp:"Eski xodimlar yangi xodim bilan ismi va lavozimini aytib tanishishi shart."}
+    ]
+  },
+  {
+    num:4, icon:'📱', name:'Интернет ва ижтимоий тармоқлар',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Kompaniyaning barcha onlayn sahifalari <strong>tartibli, reja asosida</strong> yuritiladi. Har qanday login/parol rahbarga ma'lum bo'ladi.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Barcha <strong>login va parollar</strong> rahbarga va maxsus kanalga yuboriladi</li>
+<li>Ijtimoiy tarmoqlarga <strong>kontena reja</strong> asosida post qo'yiladi</li>
+<li><strong>Imloviy xato</strong> bilan reklama — jarima</li>
+<li>Har bir postda <strong>"Call to action"</strong> bo'lishi shart (masalan: "Qo'ng'iroq qiling!")</li>
+<li>Kompaniyaga <strong>zid gaplar yozilsa</strong> — darhol rahbarga xabar berish shart</li>
+<li>Dam olish kunlari postlar <strong>oldindan tayyorlanib</strong> qo'yiladi</li>
+</ul>
+<div class="hl">💡 Eslab qol: Shaxsiy telefondan mijoz bilan gaplashish taqiqlanadi — faqat ish telefoni!</div>
+<h3>🌍 Amaliy misol</h3>
+<p>Instagram sahifasiga post qo'yishdan oldin: 1) Imloviy xatolarni tekshir, 2) "Call to action" qo'sh, 3) Mas'ul xodimdan tekshirtir.</p>`,
+    quiz:[
+      {q:"Har bir ijtimoiy tarmoq postida nima bo'lishi shart?",opts:["Rasm","Call to action (yo'naltirish so'zi)","Video","Narx"],ans:1,exp:"Har bir postda 'Qo'ng'iroq qiling', 'Saytga kiring' kabi yo'naltirish so'zi bo'lishi shart."},
+      {q:"Login va parollar kimga yuborilishi shart?",opts:["Faqat IT xodimga","Rahbarga va maxsus kanalga","Faqat o'zingizda saqlanadi","HR ga"],ans:1,exp:"Barcha login/parollar rahbarga va 'KOD VA PAROLLAR' kanaliga yuboriladi."},
+      {q:"Dam olish kunlari postlar qanday qo'yiladi?",opts:["Qo'yilmaydi","O'sha kuni qo'yiladi","Bir kun oldin tayyorlanib qo'yiladi","Sheriklarga topshiriladi"],ans:2,exp:"Reклама менежер dam olish kuni uchun bir kun oldin postlarni tayyorlab qo'yadi."},
+      {q:"Kompaniyaga zid gaplar ijtimoiy tarmoqda ko'rinsa nima qilish kerak?",opts:["O'zi javob yozadi","Rahbarsiz javob yozib bo'lmaydi, rahbarga xabar berish kerak","E'tibor bermaslik","O'chirish kerak"],ans:1,exp:"Rahbar bilan maslahatlashmay javob yozish mumkin emas."},
+      {q:"Yakshanbaga kontena reja postlari qo'yiladimi?",opts:["Ha, har kuni qo'yiladi","Yo'q, yakshanbaga qo'yilmaydi","Faqat kechqurun","Rahbar xohlasa"],ans:1,exp:"Kontena reja yakshanbaga qo'yilmaydi."}
+    ]
+  },
+  {
+    num:5, icon:'📣', name:'Реклама бўлими стандартлари',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Reklama <strong>natijaga</strong> asoslanadi. Natijasiz reklama davom ettirilmaydi.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>SMM hamkor bilan kelishuv <strong>A4 sahifaga yozib, imzo olinadi</strong></li>
+<li>Reklamachi <strong>3-10 kun oldin</strong> kanal bilan kelishib qo'yadi</li>
+<li>Imloviy xato bilan reklama berish — <strong>barcha bo'lim jarima</strong></li>
+<li>Natija <strong>raqamlarga asoslanib</strong> baholanadi</li>
+<li>Kechki soat 20:00 dan keyin — <strong>ma'lumot qoldirishga</strong> yo'naltirilgan reklama</li>
+<li>Kunduz — <strong>qo'ng'iroqqa</strong> undaydigan reklama</li>
+</ul>
+<div class="hl">💡 Eslab qol: SMM hamkor bilan shaxsiyda emas, faqat tasdiqlangan guruhda gaplashish shart!</div>
+<h3>🌍 Amaliy misol</h3>
+<p>Bir kanalga reklama berdingiz, natija kam. Ikkinchi marta berish oldidan — sarlavhani o'zgartiring. Agar baribir natija yo'q bo'lsa, rahbarga ayting.</p>`,
+    quiz:[
+      {q:"SMM hamkor bilan qanday gaplashish shart?",opts:["Shaxsiy telegramda","Tasdiqlangan guruhda","E-mail orqali","Istalgan joyda"],ans:1,exp:"SMM hamkor bilan faqat tasdiqlangan guruhda gaplashiladi — barcha xabardor bo'lsin uchun."},
+      {q:"Kechki soat 20:00 dan keyin qanday reklama beriladi?",opts:["Qo'ng'iroqqa undaydigan","Saytga kirishga undaydigan","Ma'lumot qoldirishga yo'naltirilgan","Narx ko'rsatadigan"],ans:2,exp:"Kechqurun odamlar dam oladi — ma'lumot qoldirish yoki obuna bo'lish uchun reklama yaxshiroq."},
+      {q:"Reklama natijasi qanday baholanishi kerak?",opts:["Ko'z bilan ko'rib","Raqamlarga asoslanib","Hamkasiblar fikriga ko'ra","Rahbar aytganicha"],ans:1,exp:"'Yaxshi yoki yaxshi emas' degan tushuncha to'g'ri emas — raqamlar asosida baholanadi."},
+      {q:"Reklama berish uchun qancha oldin kanal bilan kelishiladi?",opts:["1 kun","3-10 kun","2 hafta","1 oy"],ans:1,exp:"Keyingi oy uchun reklama joylarini 3-10 kun avval kanal mas'ullari bilan kelishib qo'yish shart."},
+      {q:"Imloviy xato bilan reklama berilsa kim jarima to'laydi?",opts:["Faqat dizayner","Faqat SMM mas'ul","Barcha reклама bo'limi xodimlari","Hech kim"],ans:2,exp:"Postga hissa qo'shgan barcha reklama bo'limi xodimlariga jarima qo'llanilishi mumkin."}
+    ]
+  },
+  {
+    num:6, icon:'💰', name:'Иш ҳақи ва маош',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Maosh <strong>aniq qoida</strong> asosida beriladi. Har bir daqiqa hisoblanadi.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Maosh oyning <strong>5-6 sanasida</strong>, avans <strong>15-sida</strong> beriladi</li>
+<li>Boshqa kunda maosh so'rash — <strong>taqiq</strong></li>
+<li>Avans olish uchun <strong>yozma ariza</strong> yoziladi — og'zaki so'rash mumkin emas</li>
+<li>Maosh miqdori <strong>sir</strong> — bir-biriga aytish qat'iyan taqiq</li>
+<li>Sababsiz kelmasa — <strong>300,000 so'm jarima</strong></li>
+<li>1 yil to'liq ishlagan xodimga <strong>10 kunlik ta'til</strong> — maosh to'liq beriladi</li>
+</ul>
+<div class="hl">💡 Eslab qol: Kechikish — har 30 daqiqaga 30,000 so'm jarima!</div>
+<h3>🌍 Amaliy misol</h3>
+<p>Siz 9:00 da kelishingiz kerak edi, lekin 9:40 da keldingiz. Bu ikkinchi 30 daqiqaga o'tgan — 60,000 so'm jarima to'laysiz.</p>`,
+    quiz:[
+      {q:"Maosh oyning qaysi kunlari beriladi?",opts:["1-2 sana","5-6 sana","10-11 sana","15-16 sana"],ans:1,exp:"Oylik maosh 5-6 sanada, avans 15-sida beriladi."},
+      {q:"Avans olish uchun nima qilish kerak?",opts:["Og'zaki so'rash","WhatsApp da yozish","Yozma ariza berish","Rahbarni kutish"],ans:2,exp:"Avans faqat yozma ariza orqali beriladi — og'zaki so'rash mumkin emas."},
+      {q:"Maosh miqdorini hamkasibga aytish mumkinmi?",opts:["Ha, ruxsat etilgan","Yo'q, qat'iyan taqiq","Faqat do'st bo'lsa mumkin","Rahbar ruxsati bilan mumkin"],ans:1,exp:"Maosh miqdori sir — suraydigan ham, aytadigan ham jarima to'laydi."},
+      {q:"Sababsiz bir kun ish kelmagan xodimga qancha jarima?",opts:["50,000 so'm","100,000 so'm","200,000 so'm","300,000 so'm"],ans:3,exp:"Ruxsatsiz bir kun kelmasa 300,000 so'm jarima belgilanadi."},
+      {q:"Kechikishda har 30 daqiqaga qancha jarima?",opts:["10,000 so'm","20,000 so'm","30,000 so'm","50,000 so'm"],ans:2,exp:"Birinchi 10 daqiqa jarima yo'q, 11-daqiqadan boshlab har 30 daqiqaga 30,000 so'm."}
+    ]
+  },
+  {
+    num:7, icon:'🔍', name:'Синов муддати ва ишга олиш',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Har bir yangi xodim <strong>90 kunlik sinov muddati</strong>dan o'tadi. Bu davr ikkalasi uchun ham tanishish davri.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Har yangi xodimga <strong>ustoz biriktiriladi</strong></li>
+<li>Har kuni <strong>audio hisobot</strong> — sinov muddati chatiga yuboriladi</li>
+<li><strong>Birinchi 10 kun</strong> — jarima yo'q</li>
+<li>10 kunlik ballari <strong>15 dan past</strong> bo'lsa — ish kelmaydi</li>
+<li>Ota-ona bilan <strong>10-20 kun ichida suhbat</strong> o'tkaziladi</li>
+<li>Mahalladan <strong>yozma tavsifnoma</strong> olinadi</li>
+</ul>
+<div class="hl">💡 Eslab qol: Ustoz shogirdini to'g'ri o'rgatmasa — ustoz jarima to'laydi!</div>
+<h3>🌍 Amaliy misol</h3>
+<p>Yangi xodim 1-kuni keldi. O'sha kuni ustoz biriktiriladi, chekList beriladi, eski xodimlar salomlashib o'zlarini tanishtiradi.</p>`,
+    quiz:[
+      {q:"Sinov muddati necha kun davom etadi?",opts:["30 kun","60 kun","90 kun","120 kun"],ans:2,exp:"HR bo'limi har bir yangi xodimni 90 kungacha sinov muddatidan o'tkazadi."},
+      {q:"Birinchi 10 kunda xodimga jarima beriladimi?",opts:["Ha, darhol boshlanadi","Yo'q, birinchi 10 kun jarima yo'q","Faqat katta xatolar uchun","Ustoz xohlasa"],ans:1,exp:"Birinchi 10 kun davomida yangi xodimga jarima berilmaydi."},
+      {q:"10 kunlik sinov balllari qancha bo'lsa xodim qabul qilinmaydi?",opts:["10 dan past","15 dan past","20 dan past","25 dan past"],ans:1,exp:"Agar 10 kunlik umumiy ball 15 dan past bo'lsa imtihon ham qilinmaydi."},
+      {q:"Ustoz shogirdini to'g'ri o'rgatmasa nima bo'ladi?",opts:["Shogirdga jarima","Ustoz jarima to'laydi","Ikkalasiga jarima","Hech narsa bo'lmaydi"],ans:1,exp:"Shogirdni yaxshi tayyorlamagan ustoz jarima to'laydi."},
+      {q:"Yangi xodim bilan ota-onasi o'rtasida suhbat qachon bo'ladi?",opts:["1-kuni","5-kunda","10-20 kun ichida","90 kunda"],ans:2,exp:"HR bo'limi yangi xodim bilan ota-onasini 10-20 kun ichida suhbatga chaqiradi."}
+    ]
+  },
+  {
+    num:8, icon:'👔', name:'Кийиниш стандартлари',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Kiyim — korxonaning <strong>yuz kartochkasi</strong>. Belgilangan forma obro'ni ko'taradi.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Ish vaqtida <strong>belgilangan forma</strong> — majburiy</li>
+<li><strong>Bejik</strong> (badge) — ismi, familiyasi, lavozimi bilan — har doim</li>
+<li>Shortik, mayka, shlepka — <strong>qat'iyan taqiq</strong></li>
+<li>Ayollar uchun <strong>ochiq kiyim</strong> taqiqlanadi</li>
+<li>Kir, ozoda bo'lmagan kiyimda kelish — <strong>taqiq</strong></li>
+<li>Forma xarajatini asosan <strong>xodim o'zi</strong> to'laydi (ba'zida 70% gacha yordam)</li>
+</ul>
+<div class="hl">💡 Eslab qol: Milliy bayramlarda milliy libosda yurish mumkin!</div>
+<h3>🌍 Amaliy misol</h3>
+<p>Yozda issiq bo'lsa ham — shortikda kelish mumkin emas. Forma — har qanday ob-havoda majburiy.</p>`,
+    quiz:[
+      {q:"Ish vaqtida nima taqiq?",opts:["Formal kiyim","Shortik va mayka","Milliy libos","Bejik takish"],ans:1,exp:"Shortik, mayka, shlepka va shunga o'xshash kiyimlar ish vaqtida qat'iyan taqiqlanadi."},
+      {q:"Bejikda nima yozilgan bo'lishi kerak?",opts:["Faqat ism","Ism va lavozim","Ism, familiya va lavozim","Telefon raqam"],ans:2,exp:"Bejikda xodimning ismi, familiyasi va lavozimi yozilgan bo'lishi shart."},
+      {q:"Milliy bayramlarda nima kiyish mumkin?",opts:["Faqat belgilangan forma","Milliy libos","Istalgan kiyim","Sport kiyim"],ans:1,exp:"Bayram va tadbirlarda milliy libosda yurish mumkin."},
+      {q:"Forma xarajatini kim to'laydi?",opts:["To'liq kompaniya","To'liq xodim","Asosan xodim, ba'zida yordam beriladi","Yarmi-yarmi"],ans:2,exp:"Forma xarajatini asosan xodim o'zi to'laydi, ba'zida 70% gacha yordam berilishi mumkin."},
+      {q:"Kir kiyimda kelgan xodimga nima bo'ladi?",opts:["Ogohlantiriladi","Jarima beriladi","Uyga qaytariladi","Hech narsa bo'lmaydi"],ans:1,exp:"Korxonaga ozoda bo'lmagan kir kiyimda kelish taqiqlanadi va jarima qo'llaniladi."}
+    ]
+  },
+  {
+    num:9, icon:'💻', name:'Телефон ва компютер ишлатиш',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Ish jixozlari — faqat <strong>ish uchun</strong>. Shaxsiy maqsadlarda ishlatish — taqiq.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Ish telefonida faqat <strong>ruxsat etilgan ilovalar</strong>: Telegram, Trello, Zoom...</li>
+<li><strong>Shaxsiy telefon</strong> ish vaqtida — taqiq (tushlikdan boshqa paytda)</li>
+<li>Kompyuter yoki telefon <strong>buzilsa</strong> — zarar 100% undiriladi</li>
+<li>Rahbar har xodimning telegramiga <strong>ulanish huquqiga</strong> ega</li>
+<li>Ish telefoniga kelgan SMS ga <strong>5 soat ichida</strong> javob berilmasa — jarima</li>
+<li>Ish telefoni ish joyida <strong>ovozli</strong> bo'lishi shart (ovozsiz — taqiq)</li>
+</ul>
+<div class="hl">💡 Eslab qol: Oila a'zolari zарурий holatda korxona raqami yoki rahbar raqamiga qo'ng'iroq qiladi!</div>
+<h3>🌍 Amaliy misol</h3>
+<p>Siz ish telefonida Instagram o'rnatasiz. Bu qoidabuzarlik — ilovalar ro'yxatida yo'q, rahbar ruxsatisiz o'rnatib bo'lmaydi.</p>`,
+    quiz:[
+      {q:"Ish telefonida qanday ilovalar bo'lishi mumkin?",opts:["Istalgan ilovalar","Faqat ruxsat etilganlar (Telegram, Trello, Zoom)","Faqat Telegram","Hech qanday ilova"],ans:1,exp:"Ish telefonida faqat rahbar tasdiqlagan ilovalar — boshqalari faqat ruxsat bilan."},
+      {q:"Shaxsiy telefon qachon ishlatish mumkin?",opts:["Har doim","Hech qachon","Faqat tushlik vaqtida","Rahbar ruxsati bilan"],ans:2,exp:"Shaxsiy telefon faqat tushlik vaqtida ishlatish mumkin."},
+      {q:"Ish telefoniga SMS ga necha soat ichida javob berish kerak?",opts:["1 soat","3 soat","5 soat","24 soat"],ans:2,exp:"Iş kuni davomida 5 soat ichida javob berilmasa jarima qo'llaniladi."},
+      {q:"Ish telefoni qanday holatda bo'lishi shart?",opts:["Ovozsiz","Ovozli","Titroqda","Istalgancha"],ans:1,exp:"Ish telefoni ish vaqtida doim ovozli holатda bo'lishi kerak — ovozsiz qo'yish taqiqlanadi."},
+      {q:"Rahbar xodim telegramiga ulana oladimi?",opts:["Ha, huquqi bor","Yo'q, taqiqlanadi","Faqat xodim ruxsati bilan","Faqat favqulodda holatlarda"],ans:0,exp:"Rahbar har bir xodimning ish telegramiga ulanish huquqiga ega."}
+    ]
+  },
+  {
+    num:10, icon:'⏰', name:'Иш вақти стандартлари',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Vaqt — eng qimmatli resurs. <strong>Pунктуалlik</strong> — korxona qadriyatlaridan biri.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Kechikish: <strong>10 daqiqagacha</strong> — jarima yo'q</li>
+<li><strong>11-daqiqadan</strong> boshlab — har 30 daqiqaga 30,000 so'm</li>
+<li>Sababsiz <strong>bir kun kelmasa</strong> — 300,000 so'm jarima</li>
+<li>1 kundan ortiq ruxsat — <strong>yuzma-yuz</strong> so'raladi</li>
+<li>Ruxsat so'raganda <strong>aniq vaqt</strong> ko'rsatish shart</li>
+<li>Ota-onasi chaqirsa — <strong>hech qanday ruxsatsiz</strong> ketish mumkin</li>
+</ul>
+<div class="hl">💡 Eslab qol: 9:00 da ish boshlanadi, 9:31 da kelsangiz — bu ikkinchi 30 daqiqa, 60,000 so'm jarima!</div>
+<h3>🌍 Amaliy misol</h3>
+<p>Keldi-ketdi jurnalida vaqtni to'g'ri yozmasangiz — bu halol hisoblanmaydi va ikkalasi uchun ham alohida jarima.</p>`,
+    quiz:[
+      {q:"Necha daqiqa kechikishgacha jarima yo'q?",opts:["5 daqiqa","10 daqiqa","15 daqiqa","20 daqiqa"],ans:1,exp:"Birinchi 10 daqiqa jarima yo'q, 11-daqiqadan boshlab jarima boshlanadi."},
+      {q:"9:00 da boshlanadigan ishga 9:40 da kelgan xodim qancha jarima to'laydi?",opts:["30,000","60,000","90,000","0"],ans:1,exp:"9:40 — ikkinchi 30 daqiqaga o'tgan (9:31-10:00), shuning uchun 60,000 so'm jarima."},
+      {q:"1 kundan ortiq ruxsat qanday so'raladi?",opts:["Telegramda","Onlayn ofisda","Yuzma-yuz","SMS orqali"],ans:2,exp:"1 kundan ortiq vaqtga ruxsat yuzma-yuz so'ralishi shart — onlayn qabul qilinmaydi."},
+      {q:"Ota-onasi chaqirganda xodim nima qiladi?",opts:["Ruxsat so'raydi","Hech qanday ruxsatsiz ketishi mumkin","Tushlikkacha kutadi","Hamkasibga aytib ketadi"],ans:1,exp:"Ota-ona chaqirsа — hech qanday ruxsatsiz ketish mumkin. Bu qoidadan mustasno."},
+      {q:"Ruxsat so'raganda nima ko'rsatish shart?",opts:["Faqat sabab","Faqat vaqt","Aniq vaqt va sabab","Hech narsa ko'rsatilmaydi"],ans:2,exp:"Ruxsat so'rashda aniq muddат va sabab yozilmasa jarima qo'llaniladi."}
+    ]
+  },
+  {
+    num:11, icon:'🗣️', name:'Мажлис ўтказиш стандартлари',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Majlislar <strong>samarali</strong> bo'lishi uchun — qoida, tartib, yozib borish.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Har bir ishtirokchi qo'lida <strong>qog'oz planshet</strong> bo'ladi</li>
+<li>Berilgan vazifalar <strong>yozib olinadi</strong></li>
+<li>Majlisda telefon — <strong>ovozsiz</strong></li>
+<li>Onlayn uchrashuvga ruxsatsiz qatnashmaslik — <strong>200,000 so'm jarima</strong></li>
+<li>Kechikish — har 30 daqiqa uchun <strong>30,000 so'm</strong> (10 daqiqagacha jarima yo'q)</li>
+<li>Majlis mavzusidan <strong>chetlashadigan masalalar</strong> — qo'l ko'tarib ruxsat so'rash kerak</li>
+</ul>
+<div class="hl">💡 Eslab qol: Planshetning 2-betiga rahbarga savollar yig'iladi — keyingi uchrashuvda beriladi!</div>
+<h3>🌍 Amaliy misol</h3>
+<p>Majlisda rahbar sizga vazifa berdi. Planshetning 1-betiga yozdingiz. Bajargach — ustidan chiziq tortasiz.</p>`,
+    quiz:[
+      {q:"Majlisda xodimlar qo'lida nima bo'lishi shart?",opts:["Noutbuk","Telefon","Qog'oz planshet","Hech narsa"],ans:2,exp:"Har bir majlis ishtirokchisi qo'lida qog'oz planшет bo'lishi shart."},
+      {q:"Planshetning 2-betiga nima yoziladi?",opts:["Vazifalar","Rahbarga savollar","Kechagi ishlar","Xarajatlar"],ans:1,exp:"2-betga rahbarga bermoqchi bo'lgan savollar yig'iladi va o'z vaqtida beriladi."},
+      {q:"Onlayn uchrashuvga ruxsatsiz qatnashmaslik qancha jarima?",opts:["50,000","100,000","200,000","500,000"],ans:2,exp:"Onlayn uchrashuvga ruxsatsiz qatnashmaslik 200,000 so'm jarima."},
+      {q:"Majlisda telefon qanday holatda bo'lishi kerak?",opts:["Ovozli","Ovozsiz","Stoida qoldiriladi","Tashqarida qoldiriladi"],ans:1,exp:"Barcha majlis ishtirokchilari telefonni ovozsiz holatga qo'yadi."},
+      {q:"Majlisda kechikish jarima nechanchi daqiqadan boshlanadi?",opts:["1-daqiqadan","5-daqiqadan","10-daqiqadan","11-daqiqadan"],ans:3,exp:"Birinchi 10 daqiqa jarima yo'q, 11-daqiqadan boshlab jarima boshlanadi."}
+    ]
+  },
+  {
+    num:12, icon:'🛎️', name:'Меҳмон ва мижозни кутиб олиш',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Mijoz — <strong>1-toifa mehmon</strong>. Unga munosabat korxona obro'sini belgilaydi.</p>
+<h3>📌 Mehmon toifalari</h3>
+<ul>
+<li><strong>1-toifa:</strong> Mijozlar — eng muhim</li>
+<li><strong>2-toifa:</strong> Hokimiyat vakillari</li>
+<li><strong>3-toifa:</strong> Rahbar do'stlari, yaqinlari</li>
+<li><strong>4-toifa:</strong> Norozi va janjallashadigan mehmonlar</li>
+</ul>
+<h3>📌 Mijoz (1-toifa) qutib olish:</h3>
+<ul>
+<li>Eshikdan kirgach — ko'ziga qarab, <strong>qo'lni ko'ksiga qo'yib salom</strong></li>
+<li><strong>Choy yoki qahva</strong> taklif qilinadi</li>
+<li>Mijoz <strong>avval qo'l uzatmasa</strong> — biz uzatmaymiz</li>
+</ul>
+<div class="hl">💡 Eslab qol: Norozi mijozni avval hamrohidan ajrating, suv bering, tinglang — tortishmang!</div>`,
+    quiz:[
+      {q:"Mijozlar nechanchi toifa mehmon hisoblanadi?",opts:["1-toifa","2-toifa","3-toifa","4-toifa"],ans:0,exp:"Mijozlar 1-toifa mehmon — eng muhim va birinchi o'rinda."},
+      {q:"Mijoz kelganda birinchi nima qilinadi?",opts:["Narxlarni tushuntirish","Ko'ziga qarab qo'lni ko'ksiga qo'yib salom berish","O'tirg'izish","Rahbarga xabar berish"],ans:1,exp:"Mijoz eshikdan kirgach: ko'ziga qarab, qo'lni ko'ksiga qo'yib, chiroyli salom berish."},
+      {q:"Mijoz bilan qo'l berib ko'rishish qachon mumkin?",opts:["Har doim","Hech qachon","Faqat mijoz o'zi qo'l uzatsa","Faqat erkaklar bilan"],ans:2,exp:"Mijoz o'zi qo'l bermagunicha biz qo'l uzatmaymiz."},
+      {q:"Norozi (4-toifa) mijoz bilan qanday ish tutiladi?",opts:["Darhol rahbarga chiqiladi","Undan tортишiladi","Hamrohidan ajratib, suv berib, tinglash","Chiqarib yuboriladi"],ans:2,exp:"Norozi mijozni avval ajratish, suv berish, tinglash — tortishmay, faqat mijoz tomonida turish."},
+      {q:"Hokimiyat vakillari nechanchi toifa mehmon?",opts:["1-toifa","2-toifa","3-toifa","4-toifa"],ans:1,exp:"Hokimiyat vakillari 2-toifa mehmon hisoblanadi."}
+    ]
+  },
+  {
+    num:13, icon:'🛒', name:'Сотув бўлими стандартлари',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Sotuv — bu <strong>tizim</strong>. CRM bazasida har bir qadam qayd etiladi.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>CRM bazaga barcha ma'lumotlar <strong>to'liq va to'g'ri</strong> kiritiladi</li>
+<li>Har gaplashgandan keyin <strong>keyingi qadam</strong> (sana va vaqt) belgilanadi</li>
+<li>Suhbat <strong>ovozi yozib olinadi</strong> — o'chirib bo'lmaydi</li>
+<li>Nasiyaga faqat <strong>rahbar ruxsati</strong> bilan — aks holda <strong>500,000 so'm jarima</strong></li>
+<li>Mijozga manzil so'rasa — <strong>5 daqiqa ichida</strong> lokatsiya yuboriladi</li>
+<li>Sotuv menajeri <strong>o'z limitidan</strong> ortiq chegirma bera olmaydi</li>
+</ul>
+<div class="hl">💡 Eslab qol: CRM bazasidagi ma'lumotlarni o'chirish — arxivga olish — qat'iyan taqiq!</div>
+<h3>🌍 Amaliy misol</h3>
+<p>Mijoz bilan gaplashdingiz. Keyingi aloqa uchun — CRM ga sana, vaqt, va suhbat mazmunini yozing. Shundagina ish tizimli bo'ladi.</p>`,
+    quiz:[
+      {q:"Nasiyaga berish uchun kim ruxsat beradi?",opts:["Sotuv bo'limi boshlig'i","Faqat rahbar","Har qanday mas'ul xodim","Hech qanday ruxsat kerak emas"],ans:1,exp:"Nasiyaga faqat rahbariyat tasdig'i bilan berish mumkin — aks holda 500,000 so'm jarima."},
+      {q:"CRM bazasidagi ma'lumotlarni o'chirish mumkinmi?",opts:["Ha, eskirganda","Yo'q, qat'iyan taqiq","Faqat rahbar ruxsati bilan","1 yildan keyin"],ans:1,exp:"CRM bazasidan ma'lumotlarni o'chirish (arxivga olish) qat'iyan taqiqlanadi."},
+      {q:"Mijoz manzil so'rasa necha daqiqa ichida yuboriladi?",opts:["1 daqiqa","3 daqiqa","5 daqiqa","10 daqiqa"],ans:2,exp:"Mijoz lokatsiya so'rasa 5 daqiqa ichida yuborish shart — aks holda jarima."},
+      {q:"Keyingi qadamni qachon belgilash kerak?",opts:["Hafta oxirida","Har gaplashgandan keyin","Rahbar aytganda","Oy oxirida"],ans:1,exp:"Har bir suhbatdan keyin keyingi qadam (aniq sana va vaqt) CRM da belgilanadi."},
+      {q:"Suhbat ovozi qancha muddatdan keyin o'chirilishi mumkin?",opts:["1 hafta","1 oy","1 yil","Hech qachon o'chirilmaydi"],ans:3,exp:"Suhbat ovozi yozuvlari o'chirilmaydi — har doim saqlanib turadi."}
+    ]
+  },
+  {
+    num:14, icon:'👨‍💼', name:'Раҳбар билан мулоқот',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Rahbar bilan muloqot — <strong>uch qadam qoidasi</strong> va aniqlik asosida.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Rahbarga murojaat: 1) <strong>Telegram</strong> → 2) <strong>SMS</strong> → 3) <strong>Qo'ng'iroq</strong></li>
+<li>Har qadam orasida <strong>5-10 daqiqa</strong> kutiladi</li>
+<li>Rahbar <strong>"OK"</strong> demasa — vazifa qabul qilinmagan hisoblanadi</li>
+<li>Rahbar <strong>yo'qligida</strong> ham barcha qoidalar ishlaydi</li>
+<li><strong>Chala gapirish</strong> mumkin emas — to'liq va aniq tushuntirish shart</li>
+<li>Rahbarga <strong>noto'g'ri ma'lumot</strong> berish mumkin emas</li>
+</ul>
+<div class="hl">💡 Eslab qol: Rahbar yo'qligida yaxshi, borligida yaxshi ish qilmaslik — oммавий jarima!</div>
+<h3>🌍 Amaliy misol</h3>
+<p>Rahbarga Telegram da yozdingiz — 10 daqiqa javob yo'q. Endi SMS yozing. Yana 10 daqiqa javob yo'q — qo'ng'iroq qiling.</p>`,
+    quiz:[
+      {q:"Rahbarga murojaat tartibining birinchi qadami nima?",opts:["Qo'ng'iroq","SMS","Telegram xabar","Ofisga borish"],ans:2,exp:"Birinchi qadam — Telegram orqali xabar yuborish."},
+      {q:"Har qadam orasida qancha vaqt kutiladi?",opts:["1-2 daqiqa","5-10 daqiqa","30 daqiqa","1 soat"],ans:1,exp:"Har bir qadam orasida 5-10 daqiqa kutiladi."},
+      {q:"Rahbar 'OK' demasa vazifa qanday hisoblanadi?",opts:["Bajarilgan","Qabul qilinmagan","Kutish holatida","Bekor qilingan"],ans:1,exp:"Rahbar 'OK' yoki tasdiqlash bildirmasa — vazifa qabul qilinmagan hisoblanadi."},
+      {q:"Rahbar yo'qligida qoidalar qanday ishlaydi?",opts:["Qoidalar to'xtatiladi","Barcha qoidalar ishlaydi","Faqat asosiy qoidalar","Xodimlar o'zlari hal qiladi"],ans:1,exp:"Rahbar yo'qligida ham barcha qoidalar to'liq kuchda ishlaydi."},
+      {q:"Rahbarga hisobot berishda nima talab qilinadi?",opts:["Qisqacha aytish","To'liq va aniq tushuntirish","Faqat natijani aytish","Yozma hisobot"],ans:1,exp:"Rahbarga to'liq, aniq va haqiqiy ma'lumot berish shart — chala gapirish mumkin emas."}
+    ]
+  },
+  {
+    num:15, icon:'✈️', name:'Чет эл ва сафарга бориш',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Safar — ish uchun. Har bir <strong>xarajat va qadam</strong> qayd etiladi.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Safarga ketishdan oldin <strong>bayon noma</strong> to'ldiriladi</li>
+<li>Safar uchun kerakli narsalar <strong>oldindan o'ylab, maslahatlashib</strong> olinadi</li>
+<li>Har bir <strong>xarajat cheki</strong> moliyaga topshiriladi</li>
+<li>Ofisdagi vazifalar <strong>boshqa xodimga topshiriladi</strong> va mas'ul tayinlanadi</li>
+<li>Tренingga boruvchi <strong>daftar, ruchka, vizitka</strong> olib boradi</li>
+</ul>
+<div class="hl">💡 Eslab qol: Nimadur qolib ketsa — jarima! Oldindan yaxshilab rejalash.</div>`,
+    quiz:[
+      {q:"Safarga ketishdan oldin nima to'ldiriladi?",opts:["Kelishuv shartnomasi","Safar bayon nomasi","Xarajatlar ro'yxati","Ruxsatnoma"],ans:1,exp:"Safarga chiqishdan avval tасdiqlanган blankaдаги safar bayon nomasi tо'ldiriladi."},
+      {q:"Safarga ketayotgan xodim nima olib borishi kerak?",opts:["Faqat hujjatlar","Daftar, ruchka va vizitka","Kompyuter","Hech narsa"],ans:1,exp:"Treningga boruvchi xodim daftar, ruchka, korxona vizitkasi va reklama materiallarini oladi."},
+      {q:"Safar xarajatlari qayerga topshiriladi?",opts:["Rahbarga","Moliya bo'limiga","HR ga","Saqlab qoladi"],ans:1,exp:"Safar davomida qilingan xarajatlar cheklari moliya bo'limiga topshiriladi."},
+      {q:"Safarda bo'lgan xodimning ofisdagi vazifalari nima bo'ladi?",opts:["Kutib turadi","Boshqa xodimga topshiriladi","Bekor qilinadi","O'zi masofadan bajaradi"],ans:1,exp:"Safarga ketayotgan xodim ofisdagi muhim vazifalarini mas'ul xodimga topshirib ketadi."},
+      {q:"Treningdan qaytgandan necha kun ichida jamoaga o'rgatish kerak?",opts:["1 kun","2 kun","1 hafta","1 oy"],ans:1,exp:"Treningdan qaytgandan keyin 2 kun ichida jamoa yoki qo'l ostidagilarga bilimlarni o'rgatish shart."}
+    ]
+  },
+  {
+    num:16, icon:'🎉', name:'Байрамлар ва тадбирлар',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Korxona tadbirlari — <strong>jamoa birligini</strong> mustahkamlash uchun.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Barcha <strong>milliy va diniy bayramlar</strong>da xodimlar tabriklanadi</li>
+<li>Tadbirlar <strong>oldindan rejalashtiriladi</strong></li>
+<li>Yaxshi ishlagan xodimlar tadbirga <strong>alohida rag'batlantiriladi</strong></li>
+<li>HR va direktor bayramlarda <strong>o'z vaqtida taklif beradi</strong></li>
+<li>"Yashil yo'lak" bilan ketgan xodimlar <strong>tadbirlarga taklif qilinadi</strong></li>
+</ul>
+<div class="hl">💡 Eslab qol: "Qizil yo'lak" bilan ketgan xodimlar tadbirlarga ham, ish kiyimiga ham qaytarilmaydi.</div>`,
+    quiz:[
+      {q:"Tadbirlarni kim oldindan rejalaydi?",opts:["Faqat rahbar","HR va direktor birgalikda","Xodimlar o'zlari","Moliya bo'limi"],ans:1,exp:"HR va direktor bayramlar va tadbirlar uchun oldindan taklif va reja kiritadi."},
+      {q:"'Yashil yo'lak' bilan ketgan xodim nima oladi?",opts:["Hech narsa olmaydi","Qayta ish berilmaydi","Tadbirlarga taklif qilinadi","Jarima to'laydi"],ans:2,exp:"Korxona va jamoani rozi qilib ketgan xodim tadbirlarga taklif qilinadi va qayta ish berilishi mumkin."},
+      {q:"'Qizil yo'lak' bilan ketgan xodim tadbirlarga taklif qilinadimi?",opts:["Ha, taklif qilinadi","Yo'q, taklif qilinmaydi","Faqat yillik tadbirlarga","Rahbar xohlasa"],ans:1,exp:"Jamoani norozi qilib ketgan xodim tadbirlarga taklif qilinmaydi va ish ham berilmaydi."},
+      {q:"Bayramlarda xodimlar qanday tabriklanishi kerak?",opts:["Faqat yozma","O'z vaqtida — diniy va milliy bayramlarda","Faqat yangi yilda","Xohlamasa tabriklanmaydi"],ans:1,exp:"Direktоr yoki HR xodimlarning etiqdiy va milliy bayramlarida o'z vaqtida tabriklaydi."},
+      {q:"Tadbirlarda yaxshi xodimlar qanday rag'batlantiriladi?",opts:["Faqat maqtov","Alohida rag'bat va bonuslar","Hech narsa","Navbatdagi tadbirga taklif"],ans:1,exp:"Yaxshi ishlagan xodimlar tadbirlarda alohida rag'batlantirilishi va mukofotlanishi mumkin."}
+    ]
+  },
+  {
+    num:17, icon:'🎓', name:'Тренинг ва ярмаркалар',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Trening — investisiya. O'rganilgan bilim <strong>jamoaga qaytariladi</strong>.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Treningga boruvchi <strong>kim borishi kerak</strong> — mas'ul ro'yxat tuzadi</li>
+<li>Treningda <strong>kompaniya nomidan</strong> gapiriladi, savollar beriladi</li>
+<li>Qaytgandan <strong>2 kun ichida</strong> jamoaga dars beriladi</li>
+<li>Kompaniya puli bilan o'qigan xodim <strong>tилхат</strong> yozadi</li>
+<li>Ruxsat olmasdan bormaydigan — treningning <strong>videosini 1 kunda</strong> ko'rib hisobot beradi</li>
+</ul>
+<div class="hl">💡 Eslab qol: Trening uchun ketgan pul alohida papkada saqlanadi — shartnomasiz ketsa qaytaradi!</div>`,
+    quiz:[
+      {q:"Treningdan qaytib necha kun ichida jamoaga o'rgatish kerak?",opts:["1 kun","2 kun","3 kun","1 hafta"],ans:1,exp:"Treningdan qaytgandan 2 kun ichida jamoa yoki qo'l ostidagilarga bilim o'rgatish shart."},
+      {q:"Treningga boruvchi nima olib borishi kerak?",opts:["Faqat hujjatlar","Daftar, ruchka, vizitka","Kompyuter va telefon","Hech narsa"],ans:1,exp:"Trening ga xodim daftar, ruchka, korxona vizitkasi va reklama materiallarini olib boradi."},
+      {q:"Kompaniya hisobidan o'qigan xodim nima yozadi?",opts:["Ariza","Tilhat","Shartnoma","Hisobot"],ans:1,exp:"Kompaniya puli bilan o'qigan xodim tilhat yozadi — shartnomasiz ketsa pulni qaytaradi."},
+      {q:"Treningda xodim kim nomidan gapiradi?",opts:["O'z nomidan","Kompaniya nomidan","Rahbar nomidan","HR nomidan"],ans:1,exp:"Treningda xodim doim kompaniya brendи nomidan gapiradi, savol beradi va aktiv qatnashadi."},
+      {q:"Treningga ruxsatsiz bormagan xodim nima qiladi?",opts:["Hech narsa","Jarima to'laydi va tamom","Videoni 1 kunda ko'rib hisobot beradi","Keyingi treningga boradi"],ans:2,exp:"Ruxsat olmasdan treningga bormaganlar usha trening videosini 1 kunda ko'rib, tushunganlarini guruhga aytib beradi."}
+    ]
+  },
+  {
+    num:18, icon:'📬', name:'Таклиф ва шикоятлар',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Har bir xodim korxonani yaxshilashga <strong>hissa qo'sha oladi</strong> — taklif orqali.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Takliflar <strong>maxsus jurnalga</strong> yoziladi</li>
+<li>Har oy oxirida rahbariyat <strong>ko'rib chiqadi</strong></li>
+<li>Yaxshi taklif uchun — <strong>bonus</strong></li>
+<li>Taklif berayotganda <strong>kim berganи</strong> aniq ko'rsatiladi</li>
+<li>Xodim o'zbilarmonlik bilan eski nizomga <strong>e'tiroz qilolmaydi</strong> — faqat taklif beradi</li>
+</ul>
+<div class="hl">💡 Eslab qol: Taklif qabul qilinmaguncha — eski nizomga amал qilish majburiy!</div>`,
+    quiz:[
+      {q:"Takliflar qayerga yoziladi?",opts:["Telegram guruhga","Maxsus jurnalga","Rahbar shaxsiysiga","Guruhda og'zaki aytiladi"],ans:1,exp:"Barcha takliflar maxsus jurnalga yoziladi — rahbar vaqti saqlash va e'tiborsiz qolmaslik uchun."},
+      {q:"Takliflar qachon ko'rib chiqiladi?",opts:["Darhol","Har hafta","Har oy oxirida","Rahbar xohlagan vaqtda"],ans:2,exp:"Takliflar rahbariyat tomonidan har oyning oxirida ko'rib chiqiladi."},
+      {q:"Yaxshi taklif uchun nima berilishi mumkin?",opts:["Hech narsa","Maqtov","Bonus","Kechiktirilgan taklif"],ans:2,exp:"Yaxshi takliflar uchun bonus berilishi mumkin."},
+      {q:"Taklif ko'rib chiqilguncha xodim nima qilishi shart?",opts:["Eski nizomni o'zgartirish","Eski nizomga amал qilishni davom ettirish","Nizomni bajarmaslik","Rahbar ruxsati bilan o'zgartirish"],ans:1,exp:"Taklif rasmiylashmaguncha barcha xodimlar eski nizomga to'liq amal qilishi shart."},
+      {q:"Taklif berishda kim berganini ko'rsatish kerakmi?",opts:["Yo'q, anonim bo'lishi mumkin","Ha, aniq ism ko'rsatilishi shart","Faqat lavozimi yoziladi","Rahbar xohlasa"],ans:1,exp:"Taklif berayotganda kim berganining aniq ismi bo'lishi shart — fikiр asosan bir kishidan chiqadi."}
+    ]
+  },
+  {
+    num:19, icon:'📂', name:'Ҳужжатлар ва каталоглар',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Barcha hujjatlar <strong>tartibli, tasdiqlangan</strong> va saqlangan bo'ladi.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Har bir daftar/jurnal <strong>rahbardan tasdiQ olinadi</strong></li>
+<li><strong>Celofan muqovada</strong>, sarlavhali, mas'ul nomi yozilgan</li>
+<li>Kunlik <strong>qilingan ishlar varag'i</strong> to'ldiriladi</li>
+<li>Varoqning <strong>ikkala tomoni</strong> ishlatiladi</li>
+<li>Varoqni <strong>yirtish yoki yo'qotish</strong> — jarima</li>
+<li>Hujjatlarni o'zboshimchalik bilan <strong>boshqacha saqlash</strong> — taqiq</li>
+</ul>
+<div class="hl">💡 Eslab qol: Rahbar aytsa — orgsturuktura darhol o'sha zahoti o'zgartiriladi!</div>`,
+    quiz:[
+      {q:"Daftarlar qanday saqlanishi kerak?",opts:["Istalgancha","Celofan muqovada, sarlavhali","Shunchaki javonga","Kompyuterda"],ans:1,exp:"Har bir daftar celofan muqovada, sarlavhali va mas'ul shaxs ismi yozilgan holda saqlanadi."},
+      {q:"Varoqning necha tomoni ishlatilishi shart?",opts:["Faqat biri","Ikkala tomoni","Istalgancha","Rahbar xohlasa"],ans:1,exp:"Varoqlar iqtisod qilish uchun ikkala tomoni ham to'liq ishlatilishi shart."},
+      {q:"Kunlik varoqni yo'qotsa nima bo'ladi?",opts:["Yangi oladi","Jarima to'laydi","Hech narsa","Rahbarga aytadi"],ans:1,exp:"Varoqni yirtish yoki yo'qotish jarima sababi bo'ladi."},
+      {q:"Orgsturukturada o'zgarish kiritish kerak bo'lsa qachon qilinadi?",opts:["Keyingi hafta","O'sha zahoti","Oy oxirida","Rahbar xohlasa"],ans:1,exp:"Rahbar orgsturuktura o'zgartirishni aytsa — mas'ul xodim o'sha zahoti o'zgartiradi."},
+      {q:"Yangi daftar ochish uchun nima kerak?",opts:["Hech narsa","Rahbardan tasdiQ","HR dan ruxsat","Moliyadan ruxsat"],ans:1,exp:"Har qanday daftar yoki registr rahbardan tasdiQ olinib ochiladi yoki to'xtatiladi."}
+    ]
+  },
+  {
+    num:20, icon:'🧹', name:'Тинчлик ва тартиб',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Tinch va toza muhit — <strong>samarali ish</strong> uchun asos.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Xodimlar o'zaro <strong>janjal</strong> — <strong>1,000,000 so'm jarima!</strong></li>
+<li>Ish vaqtida <strong>kompyuter tovushini ko'tarib</strong> ishlatish — taqiq</li>
+<li>Idishlarni <strong>to'g'ri joyda</strong> qoldirish shart</li>
+<li>Mehmonlar uchun jixozlardan <strong>xodimlar foydalanishi</strong> — taqiq</li>
+<li>Ofisdagi jixozlar o'rnini <strong>ruxsatsiz o'zgartirish</strong> — taqiq</li>
+<li>Kashandalik va moliyani <strong>ochiqchasiga muhokama</strong> — taqiq</li>
+</ul>
+<div class="hl">💡 Eslab qol: Kechqurun ofisdan oxirgi chiqayotgan xodim barcha elektrlarni tekshiradi!</div>`,
+    quiz:[
+      {q:"Xodimlar o'zaro janjal qilsa qancha jarima?",opts:["100,000 so'm","300,000 so'm","500,000 so'm","1,000,000 so'm"],ans:3,exp:"Xodimlar o'zaro janjal qilishi, baqirishishi, haqorat qilishi — 1,000,000 so'm jarima."},
+      {q:"Kechqurun ofisdan oxirgi chiqayotgan xodim nima qiladi?",opts:["Shunchaki chiqadi","Barcha elektr nuqtalarini tekshirib eshikni qulflaydi","Qo'riqchiga aytadi","Hech narsa qilmaydi"],ans:1,exp:"Oxirgi chiqayotgan xodim barcha xonalarni tekshirib, uchurilmagan elektr qolmagan ekaniga ishonch hosil qiladi."},
+      {q:"Xodimlar o'zaro jarima muhokamasi qilsa nima bo'ladi?",opts:["Ruxsat etilgan","Jarima qo'llaniladi","Faqat ogohlantiriladi","Hech narsa"],ans:1,exp:"Inspektor emas boshqa xodim jarima muhokama qilsa — jarima qo'llaniladi."},
+      {q:"Ofis jixozlarini o'rnini kim ruxsati bilan o'zgartirish mumkin?",opts:["Istalgan xodim","Ofis menejeri ruxsati bilan","Rahbar ruxsati bilan","Hech kim o'zgartirma"],ans:1,exp:"Ofis yoki showroom da jixozlar o'rnini ofis menejeri ruxsatisiz o'zgartirish mumkin emas."},
+      {q:"Iш vaqtida kompyuter tovushini ko'tarib ishlatish mumkinmi?",opts:["Ha, xohlasa","Yo'q, taqiqlanadi","Faqat kichik ovozda","Naushnik bilan mumkin"],ans:1,exp:"Iş vaqtida kompyuter yoki telefon tovushini ko'tarib eshitish atrofdagilarni bezovta qiladi — taqiqlanadi."}
+    ]
+  },
+  {
+    num:21, icon:'⚖️', name:'Ходимлар аро муаммоли ҳолатлар',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Muammo — tezkor va <strong>pozitiv</strong> hal qilinadi. Ayb emas, yechim izlanadi.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Janjal bo'lsa — <strong>bittasini uyga yuborish</strong>, ertasi kuni tezkor yig'ilish</li>
+<li>Yig'ilishni <strong>direktor yoki HR boshlig'i</strong> o'tkazadi</li>
+<li>Yig'ilish avvalo <strong>pozitiv kayfiyatda</strong> boshlanadi</li>
+<li><strong>Ko'pchilik fikri</strong> maqullanadi — e'tiroz qilmaslik</li>
+<li>Vijon bilan haq deb bilsa — <strong>yashirin qutiga</strong> yozish mumkin</li>
+</ul>
+<div class="hl">💡 Eslab qol: Muammoda ikkalasi ham ayblandi — chunki janjal chiqarish o'ziyoq taqiq!</div>`,
+    quiz:[
+      {q:"Xodimlar janjal qilsa birinchi nima qilinadi?",opts:["Ikkalasini uyga yuborish","Bittasini uyga yuborib, ertasi tezkor yig'ilish","Darhol jarima yozish","Rahbarga aytish"],ans:1,exp:"Bittasi uyga yuboriladi, bittasi qoladi — ertasi kuni tezkor yig'ilish o'tkaziladi."},
+      {q:"Tezkor yig'ilish kim tomonidan o'tkaziladi?",opts:["Istalgan xodim","Direktor yoki HR bo'lim boshlig'i","Bo'lim boshlig'i","Inspektor"],ans:1,exp:"Muammo yig'ilishini direktor, HR boshlig'i yoki filial rahbari o'tkazadi."},
+      {q:"Yig'ilish qanday kayfiyatda boshlanadi?",opts:["Jiddiy va qat'iy","Pozitiv kayfiyatda","Ayblovchi ohangda","Jimgina"],ans:1,exp:"Yig'ilish avvalo pozitiv kayfiyatda boshlanadi — xodimning yaxshi tomonlari gapiriladi, keyin hozirgi xatosi."},
+      {q:"Ko'pchilik fikriga e'tiroz qilsa nima bo'ladi?",opts:["Ruxsat etilgan","Jarima qo'llaniladi","Faqat ogohlantiriladi","Keyingi yig'ilishda ko'riladi"],ans:1,exp:"Ko'pchilik fikriga odоbsizcha e'tiroz qilsa jarima qo'llaniladi."},
+      {q:"Xodim o'zini haq deb bilsa qanday bildirishi mumkin?",opts:["Baland ovozda aytish","Tортишув","Yashirin qutiga yozish","Rahbarni shaxsiy uchratish"],ans:2,exp:"Vijon bilan o'zini haq deb bilsa — yashirin qutiga yozadi yoki odob bilan tushuntiradi."}
+    ]
+  },
+  {
+    num:22, icon:'🚗', name:'Корхона автомобиллари',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Korxona avtomobili — <strong>faqat ish uchun</strong>. Har bir foydalanish qayd etiladi.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>YHQ buzilsa — zarar <strong>100% undiriladi</strong></li>
+<li>Shaxsiy ishga ishlatish — <strong>rahbar ruxsati + yoqilg'i</strong> to'lash</li>
+<li>Taksi qilish — <strong>qat'iyan taqiq</strong></li>
+<li>Avtomobil doim <strong>toza</strong> saqlanadi</li>
+<li>Parkivka <strong>tartibli</strong> bo'lishi shart</li>
+<li>Shaxsiy yordamchi — <strong>yomg'irdan keyin 3 soat ichida</strong> avtomoilni yuvadi</li>
+</ul>
+<div class="hl">💡 Eslab qol: Taksi qilib pul topsa — o'sha pul to'liq kompaniya mулки + jarima!</div>`,
+    quiz:[
+      {q:"Korxona avtomobili bilan taksi qilish mumkinmi?",opts:["Ha, ruxsat etilgan","Yo'q, qat'iyan taqiq","Rahbar ruxsati bilan","Faqat kechqurun"],ans:1,exp:"Kompaniya avtomobili bilan taksi yoki buyurtma qilish qat'iyan taqiqlanadi."},
+      {q:"YHQ buzilsa zarar qancha miqdorda undiriladi?",opts:["50%","75%","100%","Hech narsa"],ans:2,exp:"YHQ buzilsa va zarar bo'lsa — zarar 100% xodimdan undiriladi."},
+      {q:"Avtomobilni shaxsiy ish uchun ishlatmoqchi bo'lsa nima kerak?",opts:["Hech narsa","Rahbar ruxsati va yoqilg'i to'lash","Faqat rahbar ruxsati","Faqat yoqilg'i to'lash"],ans:1,exp:"Shaxsiy ish uchun rahbar ruxsati olish va yoqilg'ini o'zi to'ldirish shart."},
+      {q:"Avtomobil qanday saqlanishi kerak?",opts:["Istalgancha","Doim toza va ozoda","Faqat yuvish kerak","Ichkisi toza bo'lsa kifoya"],ans:1,exp:"Haydovchi kompaniya avtomobilini tashqi va ichki qismlarini toza va ozoda holda saqlashi shart."},
+      {q:"Yomg'irdan keyin avtomobil necha soat ichida yuviladi?",opts:["1 soat","3 soat","6 soat","1 kun"],ans:1,exp:"Yog'ingarchiliк tingandan so'ng 3 soat ichida avtomobil yuvilishi shart."}
+    ]
+  },
+  {
+    num:23, icon:'🔒', name:'Маълумотларни сақлаш',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Korxona ma'lumotlari — <strong>maxfiy va himoyalangan</strong>. Yo'qolsa — katta muammo.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Barcha <strong>login/parollar</strong> rahbarga va maxsus kanalga</li>
+<li>Dizayn fayllar — <strong>PSD + CDR + JPG</strong> shaklida maxsus kanalga</li>
+<li>Hujjatlar — kompyuter <strong>D-diskida</strong> va Telegram kanalda</li>
+<li>Texnika kafolat qog'ozlari <strong>maxsus papkada</strong></li>
+<li>Ma'lumotlarni <strong>ruxsatsiz tarqatish</strong> — qat'iyan taqiq</li>
+</ul>
+<div class="hl">💡 Eslab qol: IT mas'ul barcha akkountlar login/parolini O'SHA ZAHOTI rahbarga yuboradi!</div>`,
+    quiz:[
+      {q:"Dizayn fayllar qaysi formatlarda saqlanadi?",opts:["Faqat JPG","PSD, CDR va JPG","Faqat PDF","Word formatda"],ans:1,exp:"Har bir dizayn faylning PSD, CDR va JPG nusxalari maxsus kanalga saqlanadi."},
+      {q:"Hujjatlar kompyuterda qayerda saqlanadi?",opts:["C-diskda","D-diskdagi 'korxona hujjatlari' papkasida","Ish stolidа","Istalgan joyda"],ans:1,exp:"Hujjatlar kompyuterning D-diskidagi maxsus papkaga joylashtirib boriladi."},
+      {q:"Yangi akkount ochilib login/parol qachon yuboriladi?",opts:["Hafta oxirida","O'sha zahoti","Oy oxirida","Rahbar so'raganda"],ans:1,exp:"IT mas'ul har qanday akkount uchun login/parolni o'sha zahoti rahbarga va maxsus kanalga yuboradi."},
+      {q:"Kompaniya ma'lumotlarini ruxsatsiz tarqatish mumkinmi?",opts:["Ha, ruxsat etilgan","Yo'q, qat'iyan taqiq","Faqat do'stlarga","Rahbar yo'qligida"],ans:1,exp:"Korxona ma'lumotlari, hujjatlari va ichki xabarlar rahbar ruxsatisiz tarqatish qat'iyan taqiq."},
+      {q:"Texnika kafolat qog'ozlari qayerda saqlanadi?",opts:["Xodim o'zida","Maxsus papkada","Rahbarda","HR da"],ans:1,exp:"Korxona uchun sotib olingan texnikalarning kafolat qog'ozlari maxsus papkada saqlanadi."}
+    ]
+  },
+  {
+    num:24, icon:'🏦', name:'Молия бўлими стандартлари',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Moliya — <strong>aniqlik, nazorat va vaqtlilik</strong>. Har bir so'm hisoblanadi.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Har kuni <strong>18:00-21:00</strong> gacha kassa qoldig'i hisoboti</li>
+<li>Pul olayotganda <strong>2 marta tekshirish</strong> shart</li>
+<li>Didox platforma — <strong>1 ish kunida</strong> imzolash</li>
+<li>Xodimlar <strong>"pul yo'q"</strong> deyolmaydi — "berilmaydi" deyiladi</li>
+<li>Har hafta boshida bo'lim boshliqlari <strong>xarajat rejasi</strong> moliyaga beradi</li>
+<li>Chek topshirilmasa va kamomad chiqsa — <strong>jarima</strong></li>
+</ul>
+<div class="hl">💡 Eslab qol: Maosh avval to'liq beriladi, keyin jarima summasi ushlab qolinadi — shundagina adolatli!</div>`,
+    quiz:[
+      {q:"Kassa qoldig'i hisoboti qachon beriladi?",opts:["Ertalab","Tushlikda","Har kuni 18:00-21:00 gacha","Oy oxirida"],ans:2,exp:"Hisobchi har kuni iş kunlarida 18:00-21:00 gacha kassa qoldig'i hisobotini rahbariyatga topshiradi."},
+      {q:"Xodim 'pul yo'q' desa nima bo'ladi?",opts:["To'g'ri javob","Jarima qo'llaniladi","Ogohlantiriladi","Hech narsa"],ans:1,exp:"'Pul yo'q' deyish mumkin emas — 'berilmaydi' deyiladi. Bu muhit uchun to'g'ri madaniyat."},
+      {q:"Pul sanayotganda necha marta tekshirish kerak?",opts:["1 marta","2 marta","3 marta","Kerak emas"],ans:1,exp:"Naqt pul qabul qilayotganda ham, o'tkazayotganda ham 2 marta tekshirib aniqlanadi."},
+      {q:"Didox platformasida kiruvchi hujjatlarni necha kunda imzolash kerak?",opts:["O'sha kuni","1 iş kunida","3 iş kunida","1 haftada"],ans:1,exp:"Buxgalter Didox da korxonaga kiruvchi barcha hujjatlarni 1 iş kuni davomida tekshirib imzolaydi."},
+      {q:"Maosh qanday tartibda beriladi?",opts:["Avval jarima olinadi, keyin qolgan beriladi","Avval to'liq maosh, keyin jarima ushlab qolinadi","Bir vaqtda beriladi","Rahbar xohlasha"],ans:1,exp:"Xodimga avval maosh va bonuslar to'liq beriladi, so'ng bir oy davomida hisoblangan jarima ushlab qolinadi."}
+    ]
+  },
+  {
+    num:25, icon:'📌', name:'Вазифа платформаси (Трелло)',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Trello — vazifalar tizimi. <strong>Har bir qadam</strong> qayd etiladi.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Vazifa berilsa <strong>5 soat ichida</strong> "Jarayon" ga o'tkaziladi</li>
+<li>Bajarilgandan keyin <strong>10 daqiqa ichida</strong> "Bajarildi" ga</li>
+<li>Muddatni o'zgartirish — faqat <strong>rahbar</strong></li>
+<li>Muddatdan <strong>1 soat oldin</strong> uzaytirilishini so'rash kerak</li>
+<li>Vazifa miqsadini tushunmay "Jarayon" ga o'tkazib bo'lmaydi</li>
+<li>Rahbardan boshqa hech kim vazifa kartochkasini <strong>o'chira olmaydi</strong></li>
+</ul>
+<div class="hl">💡 Eslab qol: Vazifa bajarilsayu, "Bajarildi"ga o'tkazilmasa — bajarilmagan hisoblanadi, jarima!</div>`,
+    quiz:[
+      {q:"Vazifa berilgandan necha soat ichida 'Jarayon'ga o'tkaziladi?",opts:["1 soat","3 soat","5 soat","24 soat"],ans:2,exp:"Vazifa berilgandan 5 soat iш vaqti ichida 'Jarayon' ustuniga o'tkazilishi shart."},
+      {q:"Bajarilgan vazifa necha daqiqa ichida 'Bajarildi'ga o'tkaziladi?",opts:["5 daqiqa","10 daqiqa","30 daqiqa","1 soat"],ans:1,exp:"Muddati tугугунidan keyin 10 daqiqa ichida 'Bajarildi' ustuniga olib o'tiladi."},
+      {q:"Trelloda vazifa kartochkasini kim o'chira oladi?",opts:["Har qanday xodim","Faqat rahbar","Bo'lim boshlig'i","Inspektor"],ans:1,exp:"Trelloda vazifa kartochkasini faqat rahbar o'chira oladi — xodimlar o'chira olmaydi."},
+      {q:"Muddatni qachon uzaytirish so'raladi?",opts:["Muddат o'tgach","Muddatdan 1 soat oldin","Ertasi kuni","Rahbar so'raganda"],ans:1,exp:"Muddatni uzaytirish kerak bo'lsa — muddatdan 1 soat oldin rahbardan so'rash shart."},
+      {q:"Vazifa bajarilsayu 'Bajarildi'ga o'tkazilmasa nima bo'ladi?",opts:["Bajarilgan hisoblanadi","Bajarilmagan hisoblanadi va jarima","Faqat ogohlantiriladi","Hech narsa"],ans:1,exp:"Vazifa bajarilsayu keyingi ustunга o'tkazilmasa — bajarilmagan hisoblanadi, jarima qo'llaniladi."}
+    ]
+  },
+  {
+    num:26, icon:'💬', name:'Онлайн офис гуруҳи',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Onlayn ofis guruhi — <strong>rasmiy raqamli ofis</strong>. Iш vaqtida doim faol.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Iş vaqtida doim <strong>faol va e'tiborli</strong></li>
+<li>Kunlik reja <strong>soat 10:00 gacha</strong> yoziladi</li>
+<li>Guruhda <strong>tортишув</strong> — 1 oyga guruhdan chiqariladi yoki 200,000 so'm jarima</li>
+<li><strong>Siyosiy va keraksiz</strong> materiallar tashish — taqiq</li>
+<li>Rahbar savol bersa — <strong>darhol javob</strong>, boshqalar ham eslatadi</li>
+<li>Ovoz berish (so'rovnoma) ga <strong>24 soat ichida</strong> javob beriladi</li>
+</ul>
+<div class="hl">💡 Eslab qol: Iş bilan bog'liq barcha muloqot — guruhda. Shaxsiy da faqat rahbar yozsa javob!</div>`,
+    quiz:[
+      {q:"Kunlik reja guruhga qachon yoziladi?",opts:["Kechqurun","Soat 10:00 gacha","Tushdan keyin","Xohlaganda"],ans:1,exp:"Har bir xodim iш kuni soat 10:00 gacha kunlik qiladigan ishlar rejasini guruhga yozadi."},
+      {q:"Guruhda tортишув bo'lsa nima bo'ladi?",opts:["Ogohlantiriladi","10 kунdan 1 оygacha guruhdan chiqariladi yoki 200,000 jarima","Faqat o'sha xodimga aytiladi","Hech narsa"],ans:1,exp:"Guruhda tort ishish, pichingchi qilish — 10 kundan 1 oygacha guruhdan chiqarish yoki 200,000 jarima."},
+      {q:"Rahbar guruhda savol bersa qachon javob beriladi?",opts:["1 soat ichida","Darhol","Iş oxirida","24 soat ichida"],ans:1,exp:"Rahbar guruhda kimgadir savol bersa — darhol javob berilishi shart, boshqalar ham eslatadi."},
+      {q:"So'rovnomaga necha soat ichida ovoz berilishi shart?",opts:["1 soat","5 soat","12 soat","24 soat"],ans:3,exp:"Rahbar 'shoshiling' demasa 24 soat ichida barcha xodimlar so'rovnomaga ovoz berishi shart."},
+      {q:"Iş bilan bog'liq muloqotlar qayerda bo'lishi kerak?",opts:["Shaxsiy da","Guruhda","Istalgan joyda","Faqat yuzma-yuz"],ans:1,exp:"Iş bo'yicha barcha muloqot onlayn ofis guruhida. Shaxsiyda faqat rahbar yozsa javob qaytariladi."}
+    ]
+  },
+  {
+    num:27, icon:'👥', name:'Бўлим бошлиқлари учун',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Bo'lim boshlig'i — qo'l ostidagi xodimlar uchun <strong>mas'ul</strong>.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Xodim qoidabuzarligi uchun <strong>bo'lim boshlig'i javobgar</strong></li>
+<li>Xodimni <strong>haqorat qilish, urish</strong> — qat'iyan taqiq</li>
+<li>Dam olish kunlari ham <strong>chaqirilishga tayyor</strong> bo'lish kerak</li>
+<li>Imloviy xato bilan yozish — <strong>jarima</strong></li>
+<li>Yangi xodim kelsa — <strong>xurmat bilan salomlashib kutib olish</strong></li>
+<li>Xodim bilan muloqotda <strong>ismi + otasining ismi</strong> bilan murojaat</li>
+</ul>
+<div class="hl">💡 Eslab qol: Bo'lim boshlig'i ham barcha qoidalarga bo'ysunadi — hech kimga imtiyoz yo'q!</div>`,
+    quiz:[
+      {q:"Bo'lim boshlig'i xodimni urishi yoki haqorat qilishi mumkinmi?",opts:["Ha, jiddiy xatoda","Yo'q, qat'iyan taqiq","Faqat og'zaki","Rahbar ruxsati bilan"],ans:1,exp:"Bo'lim boshliqlari xodimlarni haqorat qilishi, urishi yoki shaxsiyatiga tegishi qat'iyan taqiq."},
+      {q:"Bo'lim boshlig'i xodimga qanday murojaat qiladi?",opts:["Faqat ism bilan","Ism va otasining ismi bilan","Lavozimi bilan","Xohlagancha"],ans:1,exp:"Barcha rahbariyat va xodimlar o'zaro ismi + otasining ismi bilan murojaat qiladi."},
+      {q:"Dam olish kunlari bo'lim boshlig'i nima qilishi kerak?",opts:["Mutlaqo dam oladi","Chaqirilishga tayyor bo'ladi","Faqat favqulodda holatda ishlaydi","Xohlasa ishlaydi"],ans:1,exp:"Bo'lim boshliqlari dam olish kunida ham chaqirilishi mumkinligini bilgan holda tayyor turadi."},
+      {q:"Xodim qoidabuzarlik qilsa kim javob beradi?",opts:["Faqat xodim","Faqat bo'lim boshlig'i","Ikkalasi ham","Inspektor"],ans:2,exp:"Xodim jarima to'laydi, bo'lim boshlig'i ham vaqtida aniqlamagan uchun javobgar hisoblanadi."},
+      {q:"Bo'lim boshlig'i ham umumiy qoidalarga bo'ysunishi kerakmi?",opts:["Yo'q, imtiyozlari bor","Ha, barcha qoidalar bo'lim boshlig'iga ham tegishli","Faqat asosiy qoidalar","Rahbar aytsa"],ans:1,exp:"Bo'lim boshliqlari ham barcha xodimlar qatori kechikish, maош, kiyinish qoidalariga bo'ysunadi."}
+    ]
+  },
+  {
+    num:28, icon:'🎬', name:'Медиа бўлими стандартлари',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Media — korxona yuzini dunyoga ko'rsatadi. <strong>Sifat va doimiylik</strong> — asosiy.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Mahsulotlar <strong>chiroyli suratga olinib</strong> ijtimoiy tarmoqlarga joylashtiriladi</li>
+<li>Mamnun mijozlar fikri — <strong>video shaklida</strong></li>
+<li>Barcha ijtimoiy tarmoqlar: <strong>FB, Instagram, YouTube, Telegram, TikTok</strong></li>
+<li>Har kuni <strong>sodda post</strong> — montajsiz ham bo'lsa</li>
+<li>Media bo'limi mas'ul <strong>orgsturuktura bo'yicha</strong> kimga biriktirilgan bo'lsa o'sha</li>
+</ul>
+<div class="hl">💡 Eslab qol: Oddiy mahsulotni ham chiroyli media orqali qimmatli ko'rsatsa bo'ladi!</div>`,
+    quiz:[
+      {q:"Media bo'limi qanday postlar qo'yishi kerak?",opts:["Faqat katta tadbirlar haqida","Har kuni mahsulot/xizmat haqida sodda post","Faqat reklama postlar","Haftada bir marta"],ans:1,exp:"Media bo'limi har kuni sodda shaklda bo'lsa ham mahsulot yoki xizmat haqida post qo'yishi shart."},
+      {q:"Mamnun mijozlardan qanday material olinadi?",opts:["Yozma fikr","Video fikr","Audio fikr","Reyting"],ans:1,exp:"Mahsulotdan mamnun mijozlardan video shaklida fikr olib ijtimoiy tarmoqlarga joylashtiriladi."},
+      {q:"Qaysi ijtimoiy tarmoqlarga post joylashtirilishi shart?",opts:["Faqat Instagram","Faqat Telegram","FB, Instagram, YouTube, Telegram, TikTok","Rahbar belgilagan joylarga"],ans:2,exp:"Barcha asosiy ijtimoiy tarmoqlar: Facebook, Instagram, YouTube, Telegram, TikTok га ma'lumotlar joylashtiriladi."},
+      {q:"Media bo'limida kim javobgar?",opts:["HR bo'limi","Orgsturuktura bo'yicha tayinlangan mas'ul","Rahbar o'zi","Barcha xodimlar"],ans:1,exp:"Orgsturuktura bo'yicha media bo'limiga mas'ul qilib tayinlangan xodim javobgar hisoblanadi."},
+      {q:"Sodda post uchun nima kerak?",opts:["Katta byudjet","Professional montaj","Montajsiz ham bo'lsa bo'ladi","Rahbar ruxsati"],ans:2,exp:"Har kuni sodda shaklda, montajsiz bo'lsa ham mahsulot haqida foydali ma'lumot post qilinadi."}
+    ]
+  },
+  {
+    num:29, icon:'🧑‍🤝‍🧑', name:'HR бўлими стандартлари',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>HR — xodimlarni qabul qilish, o'stirish va <strong>muhit yaratish</strong> uchun mas'ul.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Har xodim uchun alohida <strong>XODIM PAPKASI</strong></li>
+<li>Rekruter uchun <strong>oylik kontena reja</strong></li>
+<li>Ishdan ketgan xodim <strong>8 kun ichida</strong> barcha guruhlardan chiqariladi</li>
+<li>Yangi xodim bilan shartnoma <strong>20 kun ichida</strong> imzolanadi</li>
+<li>Mahalladan <strong>yozma tavsifnoma</strong> olinadi</li>
+<li>Turмush o'rtog'idan <strong>tilhat</strong> olinadi</li>
+</ul>
+<div class="hl">💡 Eslab qol: HR boshlig'i 20 kundan oshgan, shartnoma qilinmagan xodim bo'lsa — jarima to'laydi!</div>`,
+    quiz:[
+      {q:"Ishdan ketgan xodim necha kun ichida guruhlardan chiqariladi?",opts:["1 kun","3 kun","8 kun","1 oy"],ans:2,exp:"Mas'ul xodim ishdan ketgan xodimni 8 kun ichida barcha kanallar va guruhlardan chiqaradi."},
+      {q:"Yangi xodim bilan shartnoma qachon imzolanadi?",opts:["1-kuni","10 kun ichida","Sinov muddatining 10-20 kunida","90 kundan keyin"],ans:2,exp:"HR bo'lim boshlig'i yangi xodim bilan sinov muddatining 10-20 kuni ichida shartnoma imzolaydi."},
+      {q:"HR bo'limi xodimning mahallasidan nima oladi?",opts:["Hech narsa","Yozma tavsifnoma","Og'zaki ma'lumot","Parol"],ans:1,exp:"HR bo'lim boshlig'i yangi xodimning 10-20 kunlarida mahallasidan yozma tavsifnoma oladi."},
+      {q:"Shartnoma imzolanayotganda nima suratga olinadi?",opts:["Faqat shartnoma hujjati","Suhbat jarayoni video qilib olinadi","Xodimning surati","Hech narsa"],ans:1,exp:"HR boshlig'i xodim bilan shartnoma qilishda suhbatni video qilib oladi va skaner qilib maxsus kanalga yuboradi."},
+      {q:"Rekruter uchun qachon kontena reja tuziladi?",opts:["Kerak bo'lganda","Har oyning oxirida keyingi oy uchun","Har hafta","Rahbar aytganda"],ans:1,exp:"Rekruter har oyning oxirida keyingi oy uchun rekruting kontena rejasini tuzib rahbarga tasdiqlattiradi."}
+    ]
+  },
+  {
+    num:30, icon:'💝', name:'Хайрия бўлими',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Xayriya — <strong>haqiqiy muhtojlarga</strong>, to'g'ri va shaffof tarzda.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Xayriya faqat <strong>muhtoj va muhim joylarga</strong></li>
+<li>Har bir oluvchi <strong>mahalla komitetidan surishtiriladi</li>
+<li>Oluvchilar <strong>ro'yxatga</strong> kiritiladi — xususiyatlari aniq</li>
+<li>Davlat siyosatiga zid ishlarga <strong>sarf etilmaydi</strong></li>
+<li>Jarima ortiqcha summasi <strong>xayriya hisobiga</strong> o'tkazilishi mumkin</li>
+</ul>
+<div class="hl">💡 Eslab qol: Xayriya siyosatga zid bo'lsa — jinoiy javobgarlik!</div>`,
+    quiz:[
+      {q:"Xayriya uchun kimlar tanlanadi?",opts:["Istalgan kishi","Faqat ro'yxatdagi muhtojlar (mahalladan tekshirilgan)","Xodimlar taklif qilganlari","Rahbar tanlaydi"],ans:1,exp:"Xayriya oluvchilar maxsus xususiyatlarga mos bo'lishi va mahalla komitetidan surishtirilishi shart."},
+      {q:"Xayriya puli qanday maqsadlarga sarflanmaydi?",opts:["Ta'lim maqsadida","Davlat siyosatiga zid ishlarga","Ijtimoiy yordamga","Qurilishga"],ans:1,exp:"Xayriya puli davlat siyosatiga zid va qadriyatlarga zid ishlarga sarflanmaydi — jinoiy javobgarlik."},
+      {q:"Jarima ortiqcha summasi qayerga o'tkazilishi mumkin?",opts:["Kompaniya hisobiga","Xayriya hisobiga","Rahbarga","Xodim o'zida saqlaydi"],ans:1,exp:"Agar xodim jarima suммаsi bonusidan ko'p bo'lsa — ortiqcha summa xayriya hisobiga o'tkaziladi."},
+      {q:"Xayriya oluvchi ro'yxatiga kirish uchun nima kerak?",opts:["Hech narsa","Belgilangan xususiyatlar topilishi va mahalladan tekshiruv","Faqat ariza","Do'st bo'lishi"],ans:1,exp:"Xayriya oluvchilar ro'yxatiga kirishdan avval mahalla komitetidan surishtirilishi shart."},
+      {q:"Xayriya bo'limida kim mas'ul?",opts:["Barcha xodimlar","Xayriya bo'limiga mas'ul tayinlangan xodim","HR bo'limi","Moliya bo'limi"],ans:1,exp:"Kompaniya tomonidan xayriya uchun ajratilgan mablag'larni faqatgina mas'ul xodim boshqaradi."}
+    ]
+  },
+  {
+    num:31, icon:'📈', name:'Ходим даражаси ўсиши',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Uzoq ishlagan xodim — <strong>qadrli xodim</strong>. Vafodorlik mukofotlanadi.</p>
+<h3>📌 Yillik maosh qo'shimchasi</h3>
+<ul>
+<li><strong>1 yil to'liq</strong> ishlagan — yillik maoshning <strong>5%</strong> qo'shiladi</li>
+<li><strong>2 yil to'liq</strong> ishlagan — <strong>10%</strong> qo'shiladi</li>
+<li><strong>3 yil to'liq</strong> ishlagan — <strong>15%</strong> qo'shiladi</li>
+<li>Bu <strong>13-oylik</strong> yoki yil davomida bo'lib berilishi mumkin</li>
+</ul>
+<div class="hl">💡 Eslab qol: Qo'shimcha maosh imkonga qarab yil davomida bo'lib berilishi yoki 13-oylik sifatida bir vaqtda berilishi mumkin!</div>`,
+    quiz:[
+      {q:"1 yil to'liq ishlagan xodimga qancha qo'shimcha maosh?",opts:["Yillik maoshning 3%","5%","10%","15%"],ans:1,exp:"1 yil to'liq ishlagan xodimga yillik maoshining 5% qo'shimcha beriladi."},
+      {q:"2 yil ishlagan xodimga qancha qo'shimcha?",opts:["5%","10%","15%","20%"],ans:1,exp:"2 yil to'liq ishlagan xodimga yillik maoshining 10% qo'shimcha beriladi."},
+      {q:"3 yil ishlagan xodimga qancha qo'shimcha?",opts:["10%","15%","20%","25%"],ans:1,exp:"3 yil to'liq ishlagan xodimga yillik maoshining 15% qo'shimcha beriladi."},
+      {q:"Yillik qo'shimcha maosh qanday berilishi mumkin?",opts:["Faqat bir vaqtda","Faqat bo'lib","13-oylik yoki yil davomida bo'lib","Rahbar xohlasha"],ans:2,exp:"Qo'shimcha maosh 13-oylik sifatida bir vaqtda yoki yil davomida bo'lib berilishi mumkin."},
+      {q:"Yillik qo'shimcha maosh olish uchun asosiy shart nima?",opts:["Jarima olmaslik","To'liq yil ishlash","Rahbar maqtashi","Testdan o'tish"],ans:1,exp:"Yillik qo'shimcha maosh olish uchun to'liq bir yil yoki undan ko'proq ishlash shart."}
+    ]
+  },
+  {
+    num:32, icon:'📦', name:'Таъминот ва ҳамкорлар',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Ta'minot — <strong>aniq, tejamkor va sifatli</strong>. Har bir tovar hisoblanadi.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Har bir tovar bazaga <strong>shtrix-kod</strong> bilan kiritiladi</li>
+<li>Hamkorlar bilan kelishuv <strong>A4 sahifaga yozib, imzo olinadi</strong></li>
+<li>Ta'minotchi boshqa narxlarni <strong>doim surishtirib turadi</strong></li>
+<li>Arzon lekin <strong>sifatli</strong> mahsulot tanlash shart</li>
+<li>Chek moliyaga <strong>topshiriladi</strong></li>
+<li>Ta'minotchi <strong>to'g'ri ishlaмasa</strong> — halol emas</li>
+</ul>
+<div class="hl">💡 Eslab qol: Kamchiliklar daftariga yozilgan narsalar — belgilangan vaqtda yetkaziladi!</div>`,
+    quiz:[
+      {q:"Hamkorlar bilan kelishuv qanday rasmiylashtiriladi?",opts:["Og'zaki kelishiladi","A4 sahifaga yozib, imzo olinadi","Telegram da yoziladi","Hech qanday rasmiylashtirish kerak emas"],ans:1,exp:"Hamkor bilan kelishuv jaryonidagi muhim so'zlar A4 оq varoqqa yoziladi va imzo olinadi."},
+      {q:"Ta'minotchi nima qilishi shart?",opts:["Faqat buyurtma qabul qiladi","Boshqa etkazib beruvchilardan narxlarni ham surishtiradi","Faqat bir hamkor bilan ishlaydi","Rahbar aytganda narx so'raydi"],ans:1,exp:"Ta'minotchi narxlarni arzonlashtirishga harakat qilib, boshqa etkazib beruvchilardan ham narxlarni doim surishtiradi."},
+      {q:"Xarid qilingan tovarlar cheklari qayerga topshiriladi?",opts:["Ta'minotchi o'zida saqlaydi","Moliya bo'limiga","Rahbarga","HR ga"],ans:1,exp:"Ta'minotchi tovarlarni olib kelgandan keyin cheklar va hisobotni moliya bo'limiga topshiradi."},
+      {q:"Korxona ehtiyoji uchun narsalar qayerga yoziladi?",opts:["Telegram ga","Kamchiliklar daftariga","Trelloga","Og'zaki aytiladi"],ans:1,exp:"Korxona ehtiyoji uchun barcha narsalar taxminiy summa bilan 'Kamchiliklar daftariga' yoziladi."},
+      {q:"Ta'minotchi to'g'ri ishlamasa qanday natija bo'ladi?",opts:["Jarima to'laydi","Topgan rizqi halol bo'lmaydi va qonuniy javobgarlik","Ogohlantiriladi","Hech narsa"],ans:1,exp:"Ta'minotchilar har qanday holatda to'g'ri ishlashi shart — aks holda halol bo'lmaydi va qonuniy javobgarlik."}
+    ]
+  },
+  {
+    num:33, icon:'🤵', name:'Шахсий ёрдамчи стандартлари',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Shaxsiy yordamchi — rahbarning <strong>soyasi</strong>. Har bir daqiqa rejali.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Ertangi reja bugungi <strong>17:00-20:00</strong> gacha rahbarga yuboriladi</li>
+<li>Uchrashuvga <strong>5 daqiqa oldin</strong> yetib borish ta'minlanadi</li>
+<li>Avtomobil doim <strong>toza</strong>, salon tartibli</li>
+<li>Telefon doim <strong>yoniq</strong>, zaryad to'liq</li>
+<li>Yomg'irdan keyin <strong>3 soat ichida</strong> avtomobil yuviladi</li>
+<li>Rahbarga borish: <strong>qo'ng'iroq → SMS → yana qo'ng'iroq → eshikni taqillatish</strong></li>
+</ul>
+<div class="hl">💡 Eslab qol: Rahbar oldiga borish uchun ham 3 qadam qoidasi bor!</div>`,
+    quiz:[
+      {q:"Ertangi kun rejasi qachon yuboriladi?",opts:["Ertalab","Tushda","17:00-20:00 gacha","Kechqurun 22:00 gacha"],ans:2,exp:"Shaxsiy yordamchi ertangi kun rejasini bugungi 17:00-20:00 orasida rahbarга audio izoh bilan yuboradi."},
+      {q:"Uchrashuvga qancha oldin yetib borish kerak?",opts:["O'z vaqtida","5 daqiqa oldin","10 daqiqa oldin","15 daqiqa oldin"],ans:1,exp:"Shaxsiy yordamchi uchrashuvga doim 5 daqiqa oldin yetib borishni ta'minlaydi."},
+      {q:"Yomg'irdan keyin avtomobil necha soat ichida yuviladi?",opts:["1 soat","3 soat","6 soat","Ertasi kuni"],ans:1,exp:"Yog'ingarchиlik tingandan so'ng 3 soat ichida avtomobil yuvilishi shart."},
+      {q:"Rahbarga borishda birinchi nima qilinadi?",opts:["Eshikni taqillatish","Qo'ng'iroq qilish","SMS yuborish","Telegram da yozish"],ans:1,exp:"Rahbarga borish uchun avval qo'ng'iroq, 5 daqiqa javob yo'q bo'lsa SMS, yana javob yo'q bo'lsa yana qo'ng'iroq, keyin eshikni taqillatish."},
+      {q:"Telefon qanday holatda bo'lishi shart?",opts:["Ovozsiz","Doim yoniq, zaryad to'liq","Titroqda","Iш vaqtida o'chirib qo'yiladi"],ans:1,exp:"Shaxsiy yordamchi telefoni doim yoniq va zaryad to'liq bo'lishi shart — rahbar istalgan vaqt aloqaga chiqishi uchun."}
+    ]
+  },
+  {
+    num:34, icon:'🗺️', name:'Ходимлар аро коммуникация',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Xodimlar orasidagi barcha muhim muloqot — <strong>yozma va rasmiy</strong>.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Bir-biriga bog'liq ishlar <strong>yozib rasmiylashtiriladi</strong> (muddат + imzo)</li>
+<li><strong>Kommunikasiya jurnali</strong> — bosh vosita</li>
+<li>Yordam bergan xodimga <strong>yozma tashakkurnoма</strong></li>
+<li>Vazifa berilganda <strong>aniq muddатni belgilash</strong> shart</li>
+<li>Bajaruvchi <strong>qabul qilganini bildiradi</strong> (imzo)</li>
+</ul>
+<div class="hl">💡 Eslab qol: "Tushunmadim" deyish keyin bo'lmaydi — yozib olingandan keyin mas'uliyat boshlanadi!</div>`,
+    quiz:[
+      {q:"Xodimlar orasidagi muhim vazifalar qayerga yoziladi?",opts:["Telegram shaxsiysiga","Kommunikasiya jurnali yoki maxsus chatga","Og'zaki aytiladi","Trelloga"],ans:1,exp:"Xodimlar orasidagi bog'liq ishlar kommunikasiya jurnali yoki maxsus chatga yoziladi."},
+      {q:"Vazifa berilganda nima ko'rsatilishi shart?",opts:["Faqat vazifa tavsifi","Faqat muddат","Aniq muddат va bajaruvchi imzosi","Hech narsa"],ans:2,exp:"Vazifa yozilganda aniq muddат belgilanadi va bajaruvchi qabul qilganligini imzo bilan tasdiqlaydi."},
+      {q:"Hamkasibiga yordam bergan xodim nima olishi mumkin?",opts:["Hech narsa","Yozma tashakkurnoma va rahbariyat ko'riб bonus","Og'zaki rahmat","Faqat maqtov"],ans:1,exp:"Yordam olgaч xodim, yordam bergan hamkasibiga yozma tashakkurnoma yozadi — rahbariyat ko'rib bonus berishi mumkin."},
+      {q:"Bajaruvchi vazifani qabul qilganini qanday bildiradi?",opts:["Og'zaki aytadi","Imzo qo'yadi","Telegram da yozadi","Rahbarga aytadi"],ans:1,exp:"Vazifani qabul qilgan bajaruvchi kommunikasiya jurnalida imzo qo'yadi."},
+      {q:"Vazifa yozib berilmagan holatda bajarilmasa kim javob beradi?",opts:["Bajaruvchi","Topshiruvchi","Ikkalasi","Inspektor"],ans:0,exp:"Yozma tarzda rasmiylashtirilgan vazifa bajarilmasa — bajaruvchi mas'ul va jarima to'laydi."}
+    ]
+  },
+  {
+    num:35, icon:'🏛️', name:'Директор ва бошқарувчи',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Direktor — tizim uchun <strong>mas'ul</strong>. U ham qoidalarga bo'ysunadi.</p>
+<h3>📌 Asosiy qoidalar</h3>
+<ul>
+<li>Direktor trelloni <strong>2 iш kunida</strong> tekshiradi</li>
+<li>Barcha doimiy vazifalar <strong>mas'ul shaxsga</strong> bog'langan</li>
+<li>Faoliyat boshida <strong>audio vadashuv</strong> qilinadi</li>
+<li>Direktor <strong>yillik reja</strong> va strategiya uchun javobgar</li>
+<li>Kechikish yoki kelmaslik — <strong>oldindan tasdiQ</strong></li>
+</ul>
+<div class="hl">💡 Eslab qol: Xodim nizom buzsa — inspektor, inspektor chora ko'rmasa — direktor jarima to'laydi!</div>`,
+    quiz:[
+      {q:"Direktor trelloni necha iш kunida tekshiradi?",opts:["1 kunda","2 kunda","1 haftada","1 oyda"],ans:1,exp:"Direktor bergan topshiriqlarini 2 iш kuni ichida tekshirib 'Direktor tasdiqladi' ustuniga oladi."},
+      {q:"Direktor faoliyat boshida nima qiladi?",opts:["Hisobot beradi","Audio vadashuv qiladi","Kelishuv imzolaydi","Hech narsa"],ans:1,exp:"Direktor faoliyatini boshlanishida jamoaga va biznes egasiga audio vadashuv yuboradi."},
+      {q:"Xodim nizom buzsa, inspektor chora ko'rmasa kim jarima to'laydi?",opts:["Faqat xodim","Inspektor","Direktor","Ikkalasi"],ans:2,exp:"Inspektor chora ko'rmasa — inspektorga, inspektor uchun chora ko'rilmasa — direktorga jarima qo'llaniladi."},
+      {q:"Direktoг kechikishi yoki kela olmasligini qachon aytadi?",opts:["Kechikkan vaqtda","1 kun oldin yoki darhol o'sha kuni","Ertasi kuni","Hech qachon"],ans:1,exp:"Direktor ham kechikish yoki kela olmasligini 1 kun oldin yoki o'sha kuni ish boshlanishidan avval bildiradi."},
+      {q:"Barcha doimiy vazifalar qanday boshqariladi?",opts:["Og'zaki topshiriladi","Mas'ul shaxsga buyruq bilan biriktiriladi","Rahbar o'zi bajaradi","Navbat bilan bajariladi"],ans:1,exp:"Korxonada takrorlanuvchi barcha vazifalar ma'sul shaxsga buyruq chiqarib yuklab qo'yiladi."}
+    ]
+  },
+  {
+    num:36, icon:'🏢', name:'Ҳолдинг компаниялари',
+    lesson:`<h3>🔑 Asosiy g'oya</h3>
+<p>Bir tizim — ko'plab korxona. Bu kitobning <strong>80% qoidasi</strong> har qanday biznesga mos.</p>
+<h3>📌 Asosiy fikrlar</h3>
+<ul>
+<li>Har bir qo'shimcha biznes uchun <strong>alohida bob</strong> qo'shiladi</li>
+<li>Asosiy 36 ta bob — <strong>barcha biznes turlariga mos</strong></li>
+<li>Masalan: asosiy — mebel, qo'shimcha — paket ishlab chiqarish</li>
+<li>Bir holding tizimida <strong>barcha bizneslar boshqariladi</strong></li>
+<li>Tizim bir kishiga bog'liq bo'lmasligi — <strong>haqiqiy tizim belgisi</strong></li>
+</ul>
+<div class="hl">💡 Yakuniy eslatma: Qoidalarni bilish yetarli emas — ularni biznesingizga JORIY QILISH kerak!</div>
+<h3>🌍 Yakuniy so'z</h3>
+<p>Siz barcha 36 bobni o'rgandingiz! Endi bu bilimlarni amalda qo'llab, korxonangizni tizimli qiling. <strong>Tabriklaymiz!</strong> 🎉</p>`,
+    quiz:[
+      {q:"Bu kitobdagi qoidalarning qancha qismi boshqa bizneslarga ham mos keladi?",opts:["20%","50%","80%","100%"],ans:2,exp:"Kitobdagi standartlarning taxminan 80% qismi boshqa kompaniyalaringizga ham to'g'ridan to'g'ri mos keladi."},
+      {q:"Qo'shimcha biznes uchun nima qilinadi?",opts:["Yangi alohida kitob yoziladi","Shu kitobga qo'shimcha bob qo'shiladi","Hech narsa qilinmaydi","Boshqa tizim yaratiladi"],ans:1,exp:"Qo'shimcha bizneslar uchun shu kitobga 36-bob sifatida alohida standartlar qo'shib yoziladi."},
+      {q:"Haqiqiy tizim belgisi nima?",opts:["Ko'p xodim bo'lishi","Bir kishiga bog'liqlik bo'lmasligi","Katta ofis","Ko'p daromad"],ans:1,exp:"Qachonki bitта odamga bog'liqlik ehtimoli yo'qolgandagina tizim ishlab turadi — bu haqiqiy tizim belgisi."},
+      {q:"Bu kitobning asosiy qimmati nimada?",opts:["Ko'p sahifa bo'lgani","Nazariy bilim berishi","Amaliy qo'llanma va joriy qilinadigan nizomlar","Chiroyli dizayni"],ans:2,exp:"Kitobning asosiy qimmati — amaliy qo'llanma bo'lib, biznesga darhol joriy qilinishi mumkin."},
+      {q:"Tizim qachon ishlaydi?",opts:["Ko'p xodim bo'lganda","Rahbar doim ishlaganda","Nizomlar yozilganda","Barcha nizomlar joriy qilinib, nazorat o'rnatilganda"],ans:3,exp:"Tizim faqat nizomlar yozilganda emas — amalda joriy qilinib, doimiy nazorat o'rnatilganda ishlaydi."}
+    ]
+  }
+];
+
+let state = JSON.parse(localStorage.getItem('kodeks_v2') || 'null') || { done:{}, totalCorrect:0, totalScore:0 };
+let cur = null, curTab = 'lesson', qIdx = 0, qAnswered = [];
+
+function save(){ localStorage.setItem('kodeks_v2', JSON.stringify(state)); }
+
+function renderGrid(){
+  const g = document.getElementById('chapter-grid'); g.innerHTML='';
+  DATA.forEach(ch=>{
+    const d = state.done[ch.num];
+    const card = document.createElement('div');
+    card.className='chapter-card'+(d?' done':'')+(cur===ch.num?' active':'');
+    card.innerHTML=`<div class="chapter-num">БОБ ${ch.num}</div>
+      <div class="chapter-name">${ch.icon} ${ch.name}</div>
+      <div class="chapter-status">${d?`<span class="score">${d.score}/${d.total} to'g'ri</span>`:'Boshlanmagan'}</div>`;
+    card.onclick=()=>openCh(ch.num);
+    g.appendChild(card);
+  });
+}
+
+function updateStats(){
+  const done=Object.keys(state.done).length, pct=Math.round(done/36*100);
+  document.getElementById('pct-text').textContent=pct+'%';
+  document.getElementById('progress-fill').style.width=pct+'%';
+  document.getElementById('stat-done').textContent=done;
+  document.getElementById('stat-correct').textContent=state.totalCorrect;
+  document.getElementById('stat-score').textContent=state.totalScore;
+}
+
+function openCh(num){
+  cur=num;
+  const ch=DATA.find(c=>c.num===num);
+  document.getElementById('panel-icon').textContent=ch.icon;
+  document.getElementById('panel-title').textContent=ch.name;
+  document.getElementById('panel-subtitle').textContent=num+'-bob';
+  document.getElementById('panel').classList.add('visible');
+  switchTab('lesson');
+  renderGrid();
+  setTimeout(()=>document.getElementById('panel').scrollIntoView({behavior:'smooth',block:'start'}),80);
+}
+
+function switchTab(tab){
+  curTab=tab;
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',(i===0&&tab==='lesson')||(i===1&&tab==='quiz')));
+  document.getElementById('lesson-content').style.display=tab==='lesson'?'block':'none';
+  document.getElementById('quiz-content').style.display=tab==='quiz'?'block':'none';
+  if(tab==='lesson') showLesson();
+  if(tab==='quiz') startQuiz();
+}
+
+function showLesson(){
+  const ch=DATA.find(c=>c.num===cur);
+  document.getElementById('lesson-text').innerHTML=ch.lesson;
+}
+
+function startQuiz(){
+  const ch=DATA.find(c=>c.num===cur);
+  qIdx=0; qAnswered=[];
+  document.getElementById('quiz-result').style.display='none';
+  document.getElementById('quiz-main').style.display='block';
+  renderQ();
+}
+
+function renderQ(){
+  const ch=DATA.find(c=>c.num===cur), q=ch.quiz[qIdx];
+  document.getElementById('q-num').textContent=`SAVOL ${qIdx+1}/${ch.quiz.length}`;
+  document.getElementById('q-text').textContent=q.q;
+  const opts=document.getElementById('q-options'); opts.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const b=document.createElement('button'); b.className='opt-btn'; b.textContent=o;
+    b.onclick=()=>answerQ(i); opts.appendChild(b);
+  });
+  document.getElementById('q-feedback').style.display='none';
+  document.getElementById('next-btn').style.display='none';
+  const dots=document.getElementById('q-dots'); dots.innerHTML='';
+  ch.quiz.forEach((_,i)=>{
+    const d=document.createElement('div');
+    d.className='q-dot'+(i===qIdx?' current':(qAnswered[i]!==undefined?(qAnswered[i]?' done-correct':' done-wrong'):''));
+    dots.appendChild(d);
+  });
+}
+
+function answerQ(chosen){
+  const ch=DATA.find(c=>c.num===cur), q=ch.quiz[qIdx], correct=chosen===q.ans;
+  qAnswered[qIdx]=correct;
+  document.querySelectorAll('.opt-btn').forEach((b,i)=>{
+    b.disabled=true;
+    if(i===q.ans) b.classList.add('correct');
+    else if(i===chosen&&!correct) b.classList.add('wrong');
+  });
+  const fb=document.getElementById('q-feedback');
+  fb.className='answer-feedback '+(correct?'correct':'wrong');
+  fb.textContent=(correct?'✅ To\'g\'ri! ':'❌ Xato! ')+q.exp;
+  fb.style.display='block';
+  const nb=document.getElementById('next-btn');
+  nb.style.display='inline-flex';
+  nb.textContent=qIdx<ch.quiz.length-1?'Keyingi →':'✅ Natijani ko\'r';
+}
+
+function nextQuestion(){
+  const ch=DATA.find(c=>c.num===cur);
+  qIdx++;
+  if(qIdx>=ch.quiz.length){ showResult(); return; }
+  renderQ();
+}
+
+function showResult(){
+  const ch=DATA.find(c=>c.num===cur);
+  const correct=qAnswered.filter(Boolean).length, total=ch.quiz.length;
+  const pct=Math.round(correct/total*100), score=correct*10;
+  if(!state.done[cur]){ state.totalCorrect+=correct; state.totalScore+=score; }
+  state.done[cur]={score:correct,total}; save(); updateStats(); renderGrid();
+  const emoji=pct===100?'🏆':pct>=60?'🎉':'📚';
+  const msg=pct===100?'Mukammal! To\'liq o\'zlashtirdingiz!':pct>=80?'Ajoyib natija!':pct>=60?'Yaxshi, lekin bir marta qaytaring.':'Darsni qaytadan o\'qib, yangidan ishlang.';
+  document.getElementById('quiz-main').style.display='none';
+  const r=document.getElementById('quiz-result'); r.style.display='block';
+  r.innerHTML=`<div class="result-card">
+    <div class="result-emoji">${emoji}</div>
+    <div class="result-score">${correct}/${total}</div>
+    <div class="result-msg">${msg}</div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px">
+      <button class="btn btn-secondary" onclick="startQuiz()">🔄 Qayta ishlash</button>
+      ${cur<36?`<button class="btn btn-primary" onclick="openCh(${cur+1})">Keyingi bob →</button>`:'<button class="btn btn-primary" onclick="window.scrollTo({top:0,behavior:\'smooth\'})">🏠 Bosh sahifa</button>'}
+    </div></div>`;
+}
+
+renderGrid(); updateStats();
+</script>
+</body>
+</html>
